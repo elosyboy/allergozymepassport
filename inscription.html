@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription — AllergoZyme Passport</title>
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b4912e;
+      --muted: #8c6f1f;
+      --bg: #ffffff;
+      --shadow: 0 8px 24px rgba(0,0,0,0.06);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: var(--gold-dark);
+    }
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid rgba(212,175,55,0.25);
+      animation: fadeIn .4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    img {
+      width: 80px;
+      margin-bottom: 15px;
+    }
+    h1 {
+      font-size: 24px;
+      color: var(--gold-dark);
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: left;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gold-dark);
+      margin-bottom: 4px;
+      display: block;
+    }
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 10px;
+      font-size: 15px;
+      background: #fffdf7;
+      transition: border .3s ease;
+    }
+    input:focus {
+      border-color: var(--gold-dark);
+      outline: none;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+      background: #fffdf7;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(212,175,55,0.2);
+    }
+    .checkbox-container input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+      flex-shrink: 0;
+    }
+    .checkbox-container label {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+    .btn {
+      background: var(--gold);
+      color: #fff;
+      font-weight: 600;
+      padding: 14px;
+      border-radius: 999px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all .25s ease;
+      box-shadow: 0 4px 12px rgba(212,175,55,0.25);
+    }
+    .btn:hover { background: var(--gold-dark); }
+    .success, .error {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 10px;
+      display: none;
+    }
+    .success { color: #1b5e20; }
+    .error { color: #8c1b1b; }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="logo.png" alt="AllergoZyme Logo" />
+    <h1>Créer un compte</h1>
+    <p class="subtitle">
+      Rejoignez la communauté <strong>AllergoZyme Passport</strong> et protégez-vous en toute sérénité.<br>
+      Gagnez <strong>10 €</strong> par établissement que vous recommandez.
+    </p>
+
+    <form id="signupForm">
+      <div>
+        <label>Nom</label>
+        <input type="text" id="nom" required />
+      </div>
+      <div>
+        <label>Prénom</label>
+        <input type="text" id="prenom" required />
+      </div>
+      <div>
+        <label>Email (doit être le même que votre compte PayPal)</label>
+        <input type="email" id="email" required />
+      </div>
+      <div>
+        <label>Mot de passe</label>
+        <input type="password" id="password" required />
+      </div>
+      <div>
+        <label>Numéro de téléphone</label>
+        <input type="tel" id="telephone" required />
+      </div>
+      <div>
+        <label>Adresse</label>
+        <input type="text" id="adresse" required />
+      </div>
+      <div>
+        <label>Code postal</label>
+        <input type="number" id="codepostal" required />
+      </div>
+      <div>
+        <label>Ville</label>
+        <input type="text" id="ville" required />
+      </div>
+      <div>
+        <label>Pays</label>
+        <input type="text" id="pays" required />
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="consent" required />
+        <label for="consent">J’accepte que mes données soient enregistrées (elles ne seront jamais divulguées à des tiers).</label>
+      </div>
+
+      <button type="submit" class="btn">S'inscrire</button>
+
+      <div class="success" id="msgSuccess">✅ Compte créé avec succès ! Redirection en cours...</div>
+      <div class="error" id="msgError">❌ Une erreur est survenue. Vérifiez vos informations.</div>
+    </form>
+  </div>
+
+  <footer>© <span id="year"></span> AllergoZyme Passport — Données sécurisées et protégées</footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    document.getElementById('year').textContent = new Date().getFullYear()
+
+    function genererCodeUnique() {
+      const lettres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      const prefixe = lettres[Math.floor(Math.random() * lettres.length)] + lettres[Math.floor(Math.random() * lettres.length)]
+      const chiffres = Math.floor(1000 + Math.random() * 9000)
+      return `${prefixe}-${chiffres}`
+    }
+
+    const form = document.getElementById('signupForm')
+    const msgSuccess = document.getElementById('msgSuccess')
+    const msgError = document.getElementById('msgError')
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      msgSuccess.style.display = 'none'
+      msgError.style.display = 'none'
+
+      const nom = document.getElementById('nom').value.trim()
+      const prenom = document.getElementById('prenom').value.trim()
+      const email = document.getElementById('email').value.trim()
+      const password = document.getElementById('password').value
+      const telephone = document.getElementById('telephone').value.trim()
+      const adresse = document.getElementById('adresse').value.trim()
+      const codepostal = document.getElementById('codepostal').value.trim()
+      const ville = document.getElementById('ville').value.trim()
+      const pays = document.getElementById('pays').value.trim()
+
+      const codePromo = genererCodeUnique()
+
+      try {
+        // Création du compte utilisateur
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { nom, prenom, telephone, adresse, codepostal, ville, pays }
+          }
+        })
+        if (error) throw error
+
+        // Insertion dans la table vendeurs
+        const { error: insertError } = await supabase.from('vendeurs').insert({
+          nom: `${prenom} ${nom}`,
+          email: email,
+          code_promo: codePromo,
+          paypal_email: email
+        })
+        if (insertError) throw insertError
+
+        msgSuccess.style.display = 'block'
+        setTimeout(() => { window.location.href = 'dashboard.html' }, 2000)
+      } catch (err) {
+        console.error(err)
+        msgError.style.display = 'block'
+      }
+    })
+  </script>
+</body>
+</html>

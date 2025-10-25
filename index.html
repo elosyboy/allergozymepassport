@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AllergoZyme Passport — Accueil</title>
+  <meta name="description" content="AllergoZyme Passport : créez votre passeport allergies / intolérances / diabète, gagnez 10 € par établissement ajouté, et accédez à un puissant cadre de protection et de preuve en cas de problème." />
+
+  <!-- Favicon (optionnel, utilise le même logo) -->
+  <link rel="icon" href="logo.png" />
+
+  <style>
+    :root {
+      --gold: #d4af37; /* Doré élégant */
+      --gold-700: #b4912e;
+      --gold-900: #8c6f1f;
+      --bg: #ffffff;   /* Fond blanc */
+      --ink: var(--gold); /* Écriture dorée */
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --radius: 16px;
+      --maxw: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: var(--gold-900); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(180deg, #fff, #fffef8);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      z-index: 50;
+    }
+    .header-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .brand img {
+      width: 40px; height: 40px; object-fit: contain; border-radius: 8px; box-shadow: var(--shadow);
+    }
+    .brand span { font-size: 18px; }
+
+    .actions { display: inline-flex; gap: 10px; }
+
+    .btn {
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      background: transparent;
+      transition: transform .06s ease, background .2s ease, color .2s ease, border-color .2s ease;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #fff;
+      border-color: var(--gold);
+    }
+    .btn-primary:hover { background: var(--gold-700); border-color: var(--gold-700); }
+
+    .btn-outline:hover { background: rgba(212,175,55,0.08); }
+
+    /* Hero */
+    .hero {
+      max-width: var(--maxw);
+      margin: 36px auto;
+      padding: 0 18px 10px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 28px;
+    }
+    .hero-card {
+      background: #fff;
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .kicker { text-transform: uppercase; font-size: 12px; letter-spacing: 1.2px; opacity: 0.9; }
+    h1 {
+      margin: 10px 0 14px;
+      line-height: 1.15;
+      font-size: clamp(28px, 3vw, 40px);
+      color: var(--gold-900);
+    }
+    .lead { font-size: 17px; opacity: 0.95; }
+
+    .hero-cta { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* Sections */
+    .section {
+      max-width: var(--maxw);
+      margin: 22px auto;
+      padding: 0 18px;
+    }
+    .section-card {
+      background: #fff;
+      border: 1px solid rgba(212,175,55,0.22);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .section h2 {
+      margin: 0 0 10px 0; font-size: 22px; color: var(--gold-900);
+    }
+
+    .grid-2 { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .grid-2 { grid-template-columns: 1fr; } }
+
+    ul { padding-left: 18px; margin: 10px 0; }
+
+    .note {
+      padding: 12px 14px;
+      border: 1px dashed rgba(212,175,55,0.6);
+      border-radius: 12px;
+      background: #fffdf6;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      max-width: var(--maxw);
+      margin: 40px auto 60px;
+      padding: 0 18px;
+      display: grid;
+      gap: 10px;
+      color: var(--gold-900);
+    }
+    .muted { opacity: 0.9; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./index.html" aria-label="AllergoZyme Passport — Accueil">
+        <img src="logo.png" alt="Logo AllergoZyme" />
+        <span>AllergoZyme <strong>Passport</strong></span>
+      </a>
+      <nav class="actions" aria-label="Actions">
+        <a class="btn btn-outline" href="identification.html">Identification</a>
+        <a class="btn btn-primary" href="inscription.html">Inscription</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section class="hero" aria-labelledby="titre-hero">
+      <div class="hero-card">
+        <div class="kicker">Votre santé, vos droits, vos preuves</div>
+        <h1 id="titre-hero">Créez votre passeport allergies / intolérances / diabète</h1>
+        <p class="lead">
+          Avec <strong>AllergoZyme Passport</strong>, centralisez vos informations médicales utiles (allergènes, intolérances, diabète),
+          sécurisez des <em>preuves</em> d’information en cas de litige, et profitez d’un canal simple pour <strong>gagner 10 €</strong> par établissement
+          (restaurant, snack, boulangerie, chef privé, etc.) que vous faites adhérer au label.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="inscription.html">Créer mon compte</a>
+          <a class="btn btn-outline" href="identification.html">J’ai déjà un compte</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h2 style="margin-top:0">Pourquoi maintenant ?</h2>
+        <p>
+          La vague d’<strong>allergies</strong>, d’<strong>intolérances</strong> et de <strong>diabète</strong> ne cesse de grandir. Nous ne pouvons plus passer à côté d’un cadre clair,
+          <strong>juridiquement solide</strong> et <strong>simple à utiliser</strong> pour protéger les consommateurs, responsabiliser les établissements et fluidifier l’information.
+        </p>
+        <p class="note">AllergoZyme <strong>Protect</strong> & <strong>Passport</strong> vous assistent en cas de problème, comme un <em>dossier de preuve</em> prêt à l’emploi (horodatage, traçabilité, texte d’information prérempli, etc.).
+        Du côté des établissements, c’est un cadre clair, rassurant et contrôlable via un <strong>QR code</strong> et notre <a href="https://www.allergozymelabel.com" target="_blank" rel="noopener">carte officielle</a>.</p>
+      </div>
+    </section>
+
+    <!-- À quoi ça sert / Bénéfices -->
+    <section class="section">
+      <div class="section-card grid-2">
+        <div>
+          <h2>À quoi ça sert&nbsp;?</h2>
+          <ul>
+            <li>Créer votre <strong>passeport santé</strong> (allergènes, intolérances, diabète) et le partager via QR code.</li>
+            <li>Disposer d’un <strong>texte d’information pré‑rempli</strong> après inscription (à présenter aux établissements).</li>
+            <li>Conserver des <strong>preuves</strong> (qui a été informé, quand, sur quoi) en cas de litige.</li>
+            <li>Suivre vos <strong>établissements ajoutés</strong> et vos gains.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Pourquoi créer un compte&nbsp;?</h2>
+          <ul>
+            <li>Accéder à votre <strong>page personnelle</strong> et à votre <strong>QR code</strong> d’identification rapide.</li>
+            <li>Déclarer vos <strong>allergènes</strong> (14 principaux + «&nbsp;autre&nbsp;»), <em>une seule fois</em>.</li>
+            <li>Gagner <strong>10 € par établissement</strong> que vous faites adhérer (via votre code personnel).</li>
+            <li>Consulter l’<strong>historique</strong> de vos ajouts&nbsp;: nom de l’établissement, date, statut.</li>
+          </ul>
+          <p class="note"><strong>Important&nbsp;:</strong> le texte explicatif <em>prédéfini</em> pour présenter la démarche aux restaurants vous sera fourni <strong>juste après l’inscription</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comment ça marche -->
+    <section class="section">
+      <div class="section-card">
+        <h2>Comment ça marche&nbsp;?</h2>
+        <ol>
+          <li><strong>Inscrivez‑vous</strong> (nom, prénom, e‑mail, téléphone, adresse, code postal, ville, pays). L’e‑mail doit être le <strong>même que votre PayPal</strong> pour recevoir vos 10 € / établissement validé.</li>
+          <li>Accédez à votre <strong>page personnelle</strong> avec le bouton <em>« Remplir ma page allergie »</em>.</li>
+          <li>Cochez les <strong>14 allergènes</strong> et/ou ajoutez vos spécificités (<em>Autre</em>). Une fois validé, le formulaire disparaît et un bouton <em>« Modifier mes allergènes »</em> apparaît.</li>
+          <li>Partagez votre <strong>QR code</strong> en restaurant&nbsp;: ils accèdent directement à vos infos (stockées sur <strong>Supabase</strong>) et peuvent s’enregistrer.</li>
+          <li>Depuis votre page, utilisez <em>« Faire adhérer un établissement »</em> (restaurant, snack, chef privé, boulangerie, etc.). Votre <strong>code personnel</strong> unique est automatiquement associé.</li>
+          <li>Suivez vos <strong>gains</strong> et vos <strong>établissements</strong> (nom, date, statut) dans le tableau de suivi.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Cadre Protect/Passport -->
+    <section class="section">
+      <div class="section-card grid-2">
+        <div>
+          <h2>AllergoZyme Protect & Passport</h2>
+          <p>
+            Deux faces d’un même outil&nbsp;: <strong>Passport</strong> structure vos informations et la traçabilité&nbsp;; <strong>Protect</strong> sécurise les preuves et
+            fournit un <strong>cadre juridique</strong> puissant en cas de problème. Ensemble, ils fluidifient la relation client‑établissement et réduisent les risques.
+          </p>
+        </div>
+        <div>
+          <h2>La carte officielle</h2>
+          <p>
+            Retrouvez les établissements sur la carte&nbsp;: <a href="https://www.allergozymelabel.com" target="_blank" rel="noopener">www.allergozymelabel.com</a>.
+          </p>
+          <p class="note">Scannez le QR code d’un établissement pour vérifier son statut. Depuis votre compte, votre <em>QR code personnel</em> permet aussi un accès direct et sécurisé à votre passeport.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="muted">© <span id="year"></span> AllergoZyme. Tous droits réservés.</div>
+    <div class="muted">En vous inscrivant, vous acceptez l’enregistrement de vos données (non divulguées à des tiers) conformément à notre cadre de protection.</div>
+  </footer>
+
+  <script>
+    // Mise à jour de l'année
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

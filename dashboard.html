@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mon espace — AllergoZyme Passport</title>
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b4912e;
+      --muted: #9c7d2c;
+      --bg: #fdfcf8;
+      --shadow: 0 8px 30px rgba(0,0,0,0.07);
+      --radius: 20px;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, sans-serif;
+      transition: all .2s ease;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #fff 0%, #fdf8e7 100%);
+      color: var(--gold-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #fff;
+      box-shadow: var(--shadow);
+      border-bottom: 1px solid rgba(212,175,55,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 26px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header img {
+      width: 46px; height: 46px; border-radius: 12px;
+    }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      color: var(--gold-dark);
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+    }
+    .header-buttons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header button {
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+    }
+    header button:hover { background: var(--gold-dark); }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px 100px;
+    }
+
+    section {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(212,175,55,0.25);
+      backdrop-filter: blur(10px);
+    }
+
+    section h2 {
+      color: var(--gold-dark);
+      font-size: 22px;
+      margin-top: 0;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--gold);
+      padding-left: 10px;
+    }
+
+    p {
+      color: #705e2b;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 999px;
+      border: none;
+      background: var(--gold);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(212,175,55,0.3);
+    }
+    .btn:hover { background: var(--gold-dark); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(212,175,55,0.2);
+      font-size: 14px;
+    }
+
+    th {
+      background: #fffdf3;
+      color: var(--gold-dark);
+      font-weight: 700;
+    }
+
+    td { color: #705e2b; }
+
+    .code-box {
+      margin-top: 40px;
+      background: linear-gradient(145deg, #fff, #fdf7df);
+      border-radius: 16px;
+      padding: 22px;
+      text-align: center;
+      border: 1px solid rgba(212,175,55,0.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .code-box strong {
+      display: block;
+      font-size: 15px;
+      color: var(--gold-dark);
+      margin-bottom: 8px;
+    }
+    .code-display {
+      font-size: 26px;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 6px rgba(212,175,55,0.4);
+    }
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid rgba(212,175,55,0.2);
+      background: #fffefb;
+    }
+    .link {
+      color: var(--gold-dark);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="logo.png" alt="logo" />
+      <h1>Passport</h1>
+    </div>
+    <div class="header-buttons">
+      <button id="sellTipsBtn">Que dire pour vendre ?</button>
+      <button id="logoutBtn">Déconnexion</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Allergies -->
+    <section>
+      <h2>Ma page Allergie</h2>
+      <p>
+        Centralisez ici vos allergies, intolérances et votre statut diabète. Ces données sont protégées et accessibles uniquement via votre accord.
+      </p>
+      <button class="btn" id="editAllergies">Remplir / Modifier ma page allergie</button>
+    </section>
+
+    <!-- Suivi des établissements -->
+    <section>
+      <h2>Mes établissements recommandés</h2>
+      <p>
+        Chaque établissement que vous recommandez à travers votre code personnel vous rapporte <strong>10 €</strong> après validation par AllergoZyme Protect.  
+        <br><br>
+        💰 <strong>Le paiement est effectué 14 jours après l’adhésion du restaurant</strong>, une fois le délai légal de rétractation écoulé.
+      </p>
+      <table id="etabTable">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Gain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" style="text-align:center;color:var(--muted)">Aucun établissement pour le moment.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Code personnel -->
+    <div class="code-box" id="codeContainer">
+      <strong>Mon code personnel AllergoZyme Passport</strong>
+      <div id="userCode" class="code-display">Chargement...</div>
+      <p style="font-size:13px;color:var(--muted);margin-top:6px;">
+        Ce code est unique. Communiquez-le à un restaurant ou professionnel pour qu’il le saisisse lors de son inscription sur <strong>AllergoZyme Protect</strong> et recevez votre récompense.
+      </p>
+    </div>
+
+    <!-- Carte des établissements -->
+    <section style="margin-top:40px;">
+      <h2>Carte des établissements labellisés</h2>
+      <p>Consultez la carte officielle des lieux certifiés AllergoZyme :  
+      <a href="https://www.allergozymelabel.com" target="_blank" class="link">www.allergozymelabel.com</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="year"></span> AllergoZyme Passport — Données protégées et confidentielles (AllergoZyme Protect)<br>
+    📧 Pour toute question ou problème : <a href="mailto:allergozymepro@gmail.com" class="link">allergozymepro@gmail.com</a>
+  </footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    const logoutBtn = document.getElementById('logoutBtn')
+    const sellTipsBtn = document.getElementById('sellTipsBtn')
+    const etabTable = document.querySelector('#etabTable tbody')
+    const userCode = document.getElementById('userCode')
+    const year = document.getElementById('year')
+    year.textContent = new Date().getFullYear()
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      window.location.href = 'identification.html'
+    } else {
+      const { data: vendeur } = await supabase
+        .from('vendeurs')
+        .select('code_promo')
+        .eq('email', user.email)
+        .single()
+      if (vendeur?.code_promo) {
+        userCode.textContent = vendeur.code_promo
+      } else {
+        userCode.textContent = 'Code non attribué'
+      }
+
+      // Charger les établissements reliés
+      const { data: etabs } = await supabase
+        .from('restaurants')
+        .select('*')
+        .eq('code_parrain', vendeur?.code_promo)
+
+      if (etabs && etabs.length > 0) {
+        etabTable.innerHTML = etabs.map(e => `
+          <tr>
+            <td>${e.etablissement}</td>
+            <td>${new Date(e.created_at).toLocaleDateString()}</td>
+            <td>${e.paiement ? 'Validé' : 'En attente'}</td>
+            <td>${e.paiement ? '10 €' : '-'}</td>
+          </tr>
+        `).join('')
+      }
+    }
+
+    document.getElementById('editAllergies').addEventListener('click', () => {
+      window.location.href = 'remplir-allergies.html'
+    })
+
+    sellTipsBtn.addEventListener('click', () => {
+      window.location.href = 'vendre.html'
+    })
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut()
+      window.location.href = 'identification.html'
+    })
+  </script>
+</body>
+</html>

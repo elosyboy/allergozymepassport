@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Identification — AllergoZyme Passport</title>
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #e7c64c;
+      --gold-dark: #b28e1a;
+      --muted: #9c7d2c;
+      --bg: #fefdf9;
+      --shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-dark);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px 34px 32px;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 0 0 22px;
+      color: var(--gold-dark);
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(212,175,55,0.4);
+      margin-bottom: 16px;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 13px;
+      border-radius: 999px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: white;
+      box-shadow: 0 4px 12px rgba(212,175,55,0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      box-shadow: 0 6px 14px rgba(212,175,55,0.3);
+    }
+
+    .link {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--gold-dark);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .link:hover {
+      color: var(--gold-light);
+    }
+
+    .forgot {
+      display: block;
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 16px;
+    }
+
+    .forgot a {
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .forgot a:hover {
+      text-decoration: underline;
+      color: var(--gold-dark);
+    }
+
+    /* Modal mot de passe oublié */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid rgba(212,175,55,0.25);
+      box-shadow: var(--shadow);
+      padding: 26px 24px 24px;
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal h2 {
+      color: var(--gold-dark);
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .modal p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(212,175,55,0.4);
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    .modal .btn {
+      margin-top: 8px;
+    }
+
+    .msg {
+      margin-top: 10px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .msg.success {
+      color: #2e7d32;
+      display: block;
+    }
+
+    .msg.error {
+      color: #8c1b1b;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="logo.png" alt="AllergoZyme Logo" class="logo" />
+    <h1>Identification</h1>
+
+    <form id="loginForm">
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" required placeholder="exemple@email.com" />
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" required placeholder="••••••••" />
+
+      <div class="forgot">
+        <a href="#" id="forgotLink">Mot de passe oublié ?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Se connecter</button>
+    </form>
+
+    <a href="inscription.html" class="link">Créer un compte</a>
+  </div>
+
+  <!-- Modal mot de passe oublié -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h2>Réinitialiser le mot de passe</h2>
+      <p>Entrez votre adresse e-mail. Un lien de réinitialisation vous sera envoyé si un compte existe.</p>
+      <input type="email" id="resetEmail" placeholder="exemple@email.com" />
+      <button id="sendReset" class="btn btn-primary">Envoyer le lien</button>
+      <button id="closeModal" class="btn" style="background:transparent;color:var(--gold-dark);border:1px solid rgba(212,175,55,0.4);margin-top:8px;">Annuler</button>
+      <div id="resetMsg" class="msg"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    const loginForm = document.getElementById('loginForm')
+    const emailInput = document.getElementById('email')
+    const passwordInput = document.getElementById('password')
+    const modal = document.getElementById('modal')
+    const forgotLink = document.getElementById('forgotLink')
+    const closeModal = document.getElementById('closeModal')
+    const sendReset = document.getElementById('sendReset')
+    const resetEmail = document.getElementById('resetEmail')
+    const resetMsg = document.getElementById('resetMsg')
+
+    forgotLink.addEventListener('click', e => {
+      e.preventDefault()
+      modal.style.display = 'flex'
+      resetMsg.style.display = 'none'
+      resetEmail.value = ''
+    })
+
+    closeModal.addEventListener('click', () => { modal.style.display = 'none' })
+    modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none' })
+
+    sendReset.addEventListener('click', async () => {
+      const email = resetEmail.value.trim()
+      if (!email) {
+        resetMsg.textContent = 'Veuillez renseigner une adresse e-mail.'
+        resetMsg.className = 'msg error'
+        return
+      }
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/reset-password.html'
+      })
+      if (error) {
+        resetMsg.textContent = 'Erreur : ' + error.message
+        resetMsg.className = 'msg error'
+      } else {
+        resetMsg.textContent = 'Un lien de réinitialisation a été envoyé à votre e-mail.'
+        resetMsg.className = 'msg success'
+      }
+    })
+
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault()
+      const email = emailInput.value.trim()
+      const password = passwordInput.value.trim()
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) {
+        alert('Erreur : ' + error.message)
+      } else {
+        window.location.href = 'dashboard.html'
+      }
+    })
+  </script>
+</body>
+</html>
