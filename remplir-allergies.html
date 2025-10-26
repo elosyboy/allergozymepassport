@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AllergoZyme Passport — Ma page allergie</title>
+  <title>AllergoZyme Passport — Ma fiche allergènes</title>
   <link rel="icon" href="logo.png" />
   <style>
     :root {
@@ -14,142 +14,123 @@
       --shadow: 0 8px 24px rgba(0,0,0,0.06);
       --radius: 18px;
     }
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', system-ui, sans-serif;
+    *{box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;}
+    body{
+      background:var(--bg);
+      color:var(--gold-dark);
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      min-height:100vh;
+      padding:40px 20px 60px;
     }
-    body {
-      background: var(--bg);
-      color: var(--gold-dark);
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 40px 20px 60px;
+    .card{
+      background:#fff;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(212,175,55,0.25);
+      max-width:640px;
+      width:100%;
+      padding:36px 30px;
+      animation:fadeIn .4s ease;
     }
-    .card {
-      background: #fff;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(212,175,55,0.25);
-      max-width: 640px;
-      width: 100%;
-      padding: 36px 30px;
-      animation: fadeIn .4s ease;
+    @keyframes fadeIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+    img{width:70px;display:block;margin:0 auto 10px;}
+    h1{text-align:center;color:var(--gold-dark);margin:10px 0 4px;font-size:25px;}
+    p.desc{text-align:center;color:var(--muted);font-size:15px;margin-bottom:25px;line-height:1.5;}
+    form{display:flex;flex-direction:column;gap:22px;}
+    .group{
+      background:#fffdf7;
+      border:1px solid rgba(212,175,55,0.3);
+      border-radius:12px;
+      padding:18px;
     }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(15px);} to{opacity:1;transform:translateY(0);} }
-    img {
-      width: 70px;
-      display: block;
-      margin: 0 auto 10px;
+    .group h2{
+      margin-top:0;
+      font-size:18px;
+      color:var(--gold-dark);
+      border-left:4px solid var(--gold);
+      padding-left:10px;
+      margin-bottom:12px;
     }
-    h1 {
-      text-align: center;
-      color: var(--gold-dark);
-      margin: 10px 0 4px;
-      font-size: 25px;
+    input[type=text], input[type=tel], input[type=email]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(212,175,55,0.4);
+      font-size:15px;
+      margin-top:6px;
     }
-    p.desc {
-      text-align: center;
-      color: var(--muted);
-      font-size: 15px;
-      margin-bottom: 25px;
-      line-height: 1.5;
+    input[type=text]:focus,input[type=tel]:focus,input[type=email]:focus{
+      border-color:var(--gold-dark);
+      outline:none;
     }
-    form { display: flex; flex-direction: column; gap: 22px; }
-    .group {
-      background: #fffdf7;
-      border: 1px solid rgba(212,175,55,0.3);
-      border-radius: 12px;
-      padding: 18px;
+    .checkbox-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:10px 20px;
     }
-    .group h2 {
-      margin-top: 0;
-      font-size: 18px;
-      color: var(--gold-dark);
-      border-left: 4px solid var(--gold);
-      padding-left: 10px;
-      margin-bottom: 12px;
+    label.checkbox{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:14.5px;
+      color:var(--muted);
+      font-weight:500;
     }
-    input[type=text], input[type=tel], input[type=email] {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(212,175,55,0.4);
-      font-size: 15px;
-      margin-top: 6px;
+    input[type=checkbox]{
+      width:18px;
+      height:18px;
+      accent-color:var(--gold);
     }
-    input[type=text]:focus, input[type=tel]:focus, input[type=email]:focus {
-      border-color: var(--gold-dark);
-      outline: none;
+    .btn{
+      padding:13px;
+      border:none;
+      border-radius:999px;
+      background:var(--gold);
+      color:#fff;
+      font-weight:600;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(212,175,55,0.25);
+      transition:all .25s ease;
     }
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
-      gap: 10px 20px;
+    .btn:hover{background:var(--gold-dark);}
+    .btn-secondary{
+      background:none;
+      border:2px solid var(--gold);
+      color:var(--gold-dark);
+      font-weight:600;
+      margin-top:10px;
     }
-    label.checkbox {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14.5px;
-      color: var(--muted);
-      font-weight: 500;
+    .btn-secondary:hover{
+      background:var(--gold);
+      color:#fff;
     }
-    input[type=checkbox] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--gold);
-    }
-    .btn {
-      padding: 13px;
-      border: none;
-      border-radius: 999px;
-      background: var(--gold);
-      color: #fff;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(212,175,55,0.25);
-      transition: all .25s ease;
-    }
-    .btn:hover { background: var(--gold-dark); }
-    .success, .error {
-      text-align: center;
-      font-size: 14px;
-      margin-top: 10px;
-      display: none;
-    }
-    .success { color: #1b5e20; }
-    .error { color: #8c1b1b; }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 13.5px;
-      color: var(--muted);
-    }
+    .success,.error{text-align:center;font-size:14px;margin-top:10px;display:none;}
+    .success{color:#1b5e20;}
+    .error{color:#8c1b1b;}
+    footer{text-align:center;margin-top:30px;font-size:13.5px;color:var(--muted);}
   </style>
 </head>
 <body>
   <div class="card">
     <img src="logo.png" alt="AllergoZyme Logo" />
-    <h1>Remplir ma page allergie</h1>
-    <p class="desc">
-      Complétez votre profil allergène. Ces informations confidentielles permettent aux établissements partenaires de vous protéger efficacement.
-    </p>
+    <h1>Ma fiche allergènes</h1>
+    <p class="desc">Remplissez ou mettez à jour vos allergies. Ces données confidentielles permettent aux établissements protégés de garantir votre sécurité.</p>
 
     <form id="allergyForm">
       <div class="group">
         <h2>Informations personnelles</h2>
         <input type="text" id="nom" placeholder="Votre nom complet" required />
-        <input type="email" id="contact" placeholder="Votre email ou téléphone" required />
+        <input type="email" id="contact" placeholder="Votre email (identique à votre compte)" required />
       </div>
 
       <div class="group">
         <h2>Les 14 allergènes majeurs</h2>
-        <div class="checkbox-grid">
+        <div class="checkbox-grid" id="allergenGrid">
           <label class="checkbox"><input type="checkbox" value="Gluten" />Gluten</label>
           <label class="checkbox"><input type="checkbox" value="Crustacés" />Crustacés</label>
           <label class="checkbox"><input type="checkbox" value="Œufs" />Œufs</label>
@@ -160,7 +141,7 @@
           <label class="checkbox"><input type="checkbox" value="Fruits à coque" />Fruits à coque</label>
           <label class="checkbox"><input type="checkbox" value="Céleri" />Céleri</label>
           <label class="checkbox"><input type="checkbox" value="Moutarde" />Moutarde</label>
-          <label class="checkbox"><input type="checkbox" value="Sésame" />Graines de sésame</label>
+          <label class="checkbox"><input type="checkbox" value="Sésame" />Sésame</label>
           <label class="checkbox"><input type="checkbox" value="Anhydride sulfureux" />Anhydride sulfureux / sulfites</label>
           <label class="checkbox"><input type="checkbox" value="Lupin" />Lupin</label>
           <label class="checkbox"><input type="checkbox" value="Mollusques" />Mollusques</label>
@@ -177,61 +158,68 @@
         <label class="checkbox"><input type="checkbox" id="diabete" />Je suis diabétique</label>
       </div>
 
-      <button type="submit" class="btn">Enregistrer mes informations</button>
+      <button type="submit" class="btn">💾 Enregistrer mes informations</button>
+      <button type="button" class="btn btn-secondary" id="backBtn">⬅ Retour au tableau de bord</button>
 
       <div id="msgSuccess" class="success">✅ Vos informations ont été enregistrées avec succès.</div>
       <div id="msgError" class="error">❌ Une erreur est survenue. Réessayez plus tard.</div>
     </form>
   </div>
 
-  <footer>
-    © <span id="year"></span> AllergoZyme Passport — Données confidentielles et sécurisées (AllergoZyme Protect)
-  </footer>
+  <footer>© <span id="year"></span> AllergoZyme Passport — Données protégées et non divulguées</footer>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-    const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    const supabase = createClient(
+      'https://tmrraeutjrcsozijjbzm.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+    )
 
-    const year = document.getElementById('year')
-    year.textContent = new Date().getFullYear()
-
+    document.getElementById('year').textContent = new Date().getFullYear()
     const form = document.getElementById('allergyForm')
     const msgSuccess = document.getElementById('msgSuccess')
     const msgError = document.getElementById('msgError')
+    const backBtn = document.getElementById('backBtn')
 
-    form.addEventListener('submit', async (e) => {
+    backBtn.addEventListener('click', () => window.location.href = 'dashboard.html')
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) window.location.href = 'identification.html'
+
+    // Charger la fiche existante
+    const { data: fiche } = await supabase.from('passports').select('*').eq('contact', user.email).single()
+    if (fiche) {
+      document.getElementById('nom').value = fiche.nom || ''
+      document.getElementById('contact').value = fiche.contact || user.email
+      document.getElementById('autre').value = fiche.autres_allergenes || ''
+      document.getElementById('diabete').checked = fiche.diabete || false
+
+      const allergenesList = fiche.allergenes ? fiche.allergenes.split(',').map(a => a.trim()) : []
+      document.querySelectorAll('#allergenGrid input[type=checkbox]').forEach(cb => {
+        if (allergenesList.includes(cb.value)) cb.checked = true
+      })
+    } else {
+      document.getElementById('contact').value = user.email
+    }
+
+    // Enregistrement / mise à jour
+    form.addEventListener('submit', async e => {
       e.preventDefault()
       msgSuccess.style.display = 'none'
       msgError.style.display = 'none'
 
       const nom = document.getElementById('nom').value.trim()
-      const contact = document.getElementById('contact').value.trim()
+      const contact = user.email
       const autre = document.getElementById('autre').value.trim()
       const diabete = document.getElementById('diabete').checked
-      const allergenes = [...form.querySelectorAll('input[type=checkbox]:checked')]
-                          .filter(el => el.id !== 'diabete')
-                          .map(el => el.value)
-                          .join(', ')
-
-      if (!nom || !contact) {
-        msgError.textContent = "⚠️ Veuillez remplir votre nom et votre contact."
-        msgError.style.display = 'block'
-        return
-      }
+      const allergenes = [...form.querySelectorAll('#allergenGrid input[type=checkbox]:checked')]
+        .map(el => el.value)
+        .join(', ')
 
       try {
         const { error } = await supabase
           .from('passports')
-          .upsert([{
-            nom,
-            contact,
-            allergenes,
-            autres_allergenes: autre || null,
-            diabete
-          }], { onConflict: 'contact' })
-
+          .upsert([{ nom, contact, allergenes, autres_allergenes: autre, diabete }], { onConflict: 'contact' })
         if (error) throw error
         msgSuccess.style.display = 'block'
       } catch (err) {
