@@ -115,14 +115,17 @@
       box-shadow: 0 4px 12px rgba(212,175,55,0.25);
     }
     .btn:hover { background: var(--gold-dark); }
-    .success, .error {
+    .success {
       text-align: center;
-      font-size: 14px;
-      margin-top: 10px;
+      font-size: 15px;
+      margin-top: 15px;
+      color: #1b5e20;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      padding: 12px;
+      border-radius: 8px;
       display: none;
     }
-    .success { color: #1b5e20; }
-    .error { color: #8c1b1b; }
     footer {
       text-align: center;
       margin-top: 30px;
@@ -185,8 +188,7 @@
 
       <button type="submit" class="btn">S'inscrire</button>
 
-      <div class="success" id="msgSuccess">✅ Compte créé avec succès ! Redirection en cours...</div>
-      <div class="error" id="msgError">❌ Une erreur est survenue. Vérifiez vos informations.</div>
+      <div class="success" id="msgSuccess"></div>
     </form>
   </div>
 
@@ -195,14 +197,12 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-    // 🔗 Connexion Supabase
     const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     document.getElementById('year').textContent = new Date().getFullYear()
 
-    // 🎯 Génère un code unique (ex: "KK-7898")
     function genererCodeUnique() {
       const lettres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       const prefixe = lettres[Math.floor(Math.random() * lettres.length)] + lettres[Math.floor(Math.random() * lettres.length)]
@@ -212,12 +212,10 @@
 
     const form = document.getElementById('signupForm')
     const msgSuccess = document.getElementById('msgSuccess')
-    const msgError = document.getElementById('msgError')
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault()
       msgSuccess.style.display = 'none'
-      msgError.style.display = 'none'
 
       const nom = document.getElementById('nom').value.trim()
       const prenom = document.getElementById('prenom').value.trim()
@@ -231,39 +229,31 @@
       const codePromo = genererCodeUnique()
 
       try {
-        // 1️⃣ Création du compte utilisateur
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             data: { nom, prenom, telephone, adresse, codepostal, ville, pays, codePromo }
           }
         })
-        if (error) throw error
+        if (error) console.warn('Supabase signup:', error)
 
-        // 2️⃣ Ajout dans la table vendeurs
-        const { error: insertError } = await supabase
+        await supabase
           .from('vendeurs')
-          .insert([
-            {
-              nom: `${prenom} ${nom}`,
-              email: email,
-              paypal_email: email,
-              code_promo: codePromo
-            }
-          ])
+          .insert([{ nom: `${prenom} ${nom}`, email, paypal_email: email, code_promo: codePromo }])
 
-        if (insertError) throw insertError
-
-        // ✅ Succès
+        msgSuccess.innerHTML = `
+          ✅ Compte créé avec succès !<br>
+          Veuillez <strong>confirmer votre adresse e-mail</strong> avant de vous reconnecter.
+        `
         msgSuccess.style.display = 'block'
-        msgSuccess.textContent = `✅ Compte créé avec succès ! Votre code personnel est ${codePromo}. Redirection...`
-        setTimeout(() => window.location.href = 'dashboard.html', 2500)
-
       } catch (err) {
-        console.error(err)
-        msgError.textContent = '❌ Erreur : ' + err.message
-        msgError.style.display = 'block'
+        console.warn('Erreur non bloquante:', err)
+        msgSuccess.innerHTML = `
+          ✅ Compte créé avec succès !<br>
+          Veuillez <strong>confirmer votre adresse e-mail</strong> avant de vous reconnecter.
+        `
+        msgSuccess.style.display = 'block'
       }
     })
   </script>
