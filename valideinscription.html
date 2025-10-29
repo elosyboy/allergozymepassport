@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compte confirmé — AllergoZyme Passport</title>
+  <title>Inscription réussie — AllergoZyme Passport</title>
   <link rel="icon" href="logo.png" />
   <style>
     :root {
       --gold: #d4af37;
       --gold-dark: #b4912e;
       --muted: #8c6f1f;
-      --bg: #fffef8;
+      --bg: #fffef9;
       --shadow: 0 8px 24px rgba(0,0,0,0.08);
       --radius: 22px;
     }
@@ -19,15 +19,15 @@
 
     body {
       margin: 0;
-      background: linear-gradient(180deg, #fffef8, #fff7e1);
+      background: linear-gradient(180deg, #fffef8, #fff8e1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       padding: 30px;
-      text-align: center;
       color: var(--gold-dark);
+      text-align: center;
     }
 
     .card {
@@ -35,9 +35,9 @@
       border-radius: var(--radius);
       border: 1px solid rgba(212,175,55,0.3);
       box-shadow: var(--shadow);
-      padding: 50px 35px;
       max-width: 480px;
       width: 100%;
+      padding: 50px 35px;
       animation: fadeIn 0.6s ease;
     }
 
@@ -53,26 +53,31 @@
     }
 
     h1 {
-      font-size: 26px;
       color: var(--gold-dark);
+      font-size: 26px;
       margin-bottom: 12px;
     }
 
     p {
-      font-size: 15px;
       color: var(--muted);
+      font-size: 15px;
       line-height: 1.6;
       margin-bottom: 25px;
     }
 
+    strong {
+      color: var(--gold-dark);
+    }
+
     .btn {
-      display: inline-block;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: #fff;
+      text-decoration: none;
+      display: inline-block;
       padding: 13px 30px;
       border-radius: 999px;
       font-weight: 600;
-      text-decoration: none;
+      font-size: 15px;
       transition: all .25s ease;
       box-shadow: 0 4px 12px rgba(212,175,55,0.3);
     }
@@ -82,25 +87,15 @@
       transform: translateY(-2px);
     }
 
-    .checkmark {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 15px;
-      border-radius: 50%;
-      background: rgba(212,175,55,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .checkmark svg {
-      width: 36px;
-      height: 36px;
-      stroke: var(--gold-dark);
-      stroke-width: 3;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .info-box {
+      background: #fffdf2;
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 10px;
+      padding: 14px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     footer {
@@ -108,22 +103,29 @@
       font-size: 13px;
       color: var(--muted);
     }
+
+    .highlight {
+      background: rgba(212,175,55,0.1);
+      border-radius: 8px;
+      padding: 4px 8px;
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <img src="logo.png" alt="AllergoZyme Logo" />
-    <div class="checkmark">
-      <svg viewBox="0 0 24 24">
-        <path d="M5 13l4 4L19 7" />
-      </svg>
-    </div>
-    <h1>Votre compte est confirmé ✅</h1>
+    <h1>Inscription réussie 🎉</h1>
     <p>
-      Félicitations ! Votre adresse e-mail a été validée avec succès.<br><br>
-      Vous pouvez désormais vous connecter à votre espace <strong>AllergoZyme Passport</strong>.
+      Merci d’avoir rejoint <strong>AllergoZyme Passport</strong>.<br><br>
+      Un e-mail de confirmation vient de vous être envoyé.<br>
+      Pour activer votre compte, veuillez cliquer sur le lien dans ce message.
     </p>
-    <a href="identification.html" class="btn">Se connecter maintenant</a>
+
+    <div class="info-box">
+      💡 <strong>Astuce :</strong> Si vous ne trouvez pas l’e-mail, vérifiez vos spams ou l’onglet “Promotions”.
+    </div>
+
+    <a href="identification.html" class="btn">J’ai confirmé, me connecter</a>
   </div>
 
   <footer>© <span id="year"></span> AllergoZyme Passport — Données confidentielles et protégées.</footer>

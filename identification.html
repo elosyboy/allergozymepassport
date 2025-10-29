@@ -8,39 +8,36 @@
   <style>
     :root {
       --gold: #d4af37;
-      --gold-light: #e7c64c;
-      --gold-dark: #b28e1a;
-      --muted: #9c7d2c;
-      --bg: #fefdf9;
-      --shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
-      --radius: 18px;
+      --gold-dark: #b4912e;
+      --muted: #8c6f1f;
+      --bg: #fffef8;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --radius: 20px;
     }
 
-    * {
-      box-sizing: border-box;
-      font-family: "Inter", system-ui, sans-serif;
-    }
+    * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
 
     body {
-      background: var(--bg);
       margin: 0;
-      min-height: 100vh;
+      background: var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
       color: var(--gold-dark);
     }
 
     .card {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid rgba(212,175,55,0.3);
+      box-shadow: var(--shadow);
       width: 100%;
       max-width: 420px;
-      background: #fff;
-      border: 1px solid rgba(212,175,55,0.25);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 40px 34px 32px;
+      padding: 45px 35px;
       text-align: center;
-      animation: fadeIn 0.5s ease;
+      animation: fadeIn 0.6s ease;
     }
 
     @keyframes fadeIn {
@@ -48,169 +45,173 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .logo {
+    img {
       width: 80px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     h1 {
       font-size: 24px;
-      margin: 0 0 22px;
+      margin-bottom: 25px;
       color: var(--gold-dark);
-      font-weight: 700;
-      letter-spacing: 0.3px;
     }
 
     label {
       display: block;
       text-align: left;
       font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 6px;
       font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--muted);
     }
 
     input {
       width: 100%;
       padding: 12px;
+      border: 1px solid rgba(212,175,55,0.3);
       border-radius: 10px;
-      border: 1px solid rgba(212,175,55,0.4);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       font-size: 15px;
+      background: #fffdf7;
       transition: all 0.2s ease;
     }
 
     input:focus {
+      border-color: var(--gold-dark);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
       outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
     }
 
-    .btn {
-      display: inline-block;
+    button {
       width: 100%;
       padding: 13px;
       border-radius: 999px;
       border: none;
-      font-size: 16px;
       font-weight: 600;
+      font-size: 16px;
       cursor: pointer;
       transition: all 0.25s ease;
     }
 
     .btn-primary {
-      background: var(--gold);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: white;
-      box-shadow: 0 4px 12px rgba(212,175,55,0.25);
+      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
     }
 
-    .btn-primary:hover {
-      background: var(--gold-dark);
-      box-shadow: 0 6px 14px rgba(212,175,55,0.3);
-    }
+    .btn-primary:hover { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); }
 
-    .link {
+    a.link {
       display: inline-block;
       margin-top: 14px;
       color: var(--gold-dark);
-      font-weight: 600;
       text-decoration: none;
-      transition: color 0.2s ease;
+      font-weight: 600;
     }
 
-    .link:hover {
-      color: var(--gold-light);
-    }
+    a.link:hover { color: var(--gold); }
 
     .forgot {
-      display: block;
       text-align: right;
       margin-top: -10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .forgot a {
+      color: var(--muted);
       font-size: 13px;
       text-decoration: none;
-      color: var(--muted);
-      font-weight: 500;
     }
 
-    .forgot a:hover {
-      text-decoration: underline;
-      color: var(--gold-dark);
-    }
+    .forgot a:hover { text-decoration: underline; color: var(--gold-dark); }
 
-    /* Modal mot de passe oublié */
-    .modal-backdrop {
-      display: none;
+    /* Popup */
+    .popup-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(2px);
+      background: rgba(0,0,0,0.4);
+      display: none;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      backdrop-filter: blur(3px);
+      z-index: 10;
     }
 
-    .modal {
+    .popup {
       background: #fff;
-      border-radius: var(--radius);
-      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 18px;
+      border: 1px solid rgba(212,175,55,0.3);
       box-shadow: var(--shadow);
-      padding: 26px 24px 24px;
-      width: 90%;
       max-width: 380px;
+      width: 90%;
+      padding: 30px;
       text-align: center;
       animation: fadeIn 0.3s ease;
     }
 
-    .modal h2 {
-      color: var(--gold-dark);
+    .popup img {
+      width: 65px;
       margin-bottom: 10px;
-      font-size: 20px;
     }
 
-    .modal p {
+    .popup h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--gold-dark);
+    }
+
+    .popup p {
       font-size: 14px;
       color: var(--muted);
-      margin-bottom: 16px;
-      line-height: 1.4;
+      margin-bottom: 15px;
     }
 
-    .modal input {
+    .popup input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid rgba(212,175,55,0.4);
+      padding: 12px;
       border-radius: 8px;
-      margin-bottom: 14px;
-      font-size: 15px;
+      border: 1px solid rgba(212,175,55,0.4);
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 14px;
     }
 
-    .modal .btn {
+    .popup button {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .popup button:hover { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); }
+
+    .popup .close {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      font-size: 13px;
       margin-top: 8px;
+      cursor: pointer;
     }
 
     .msg {
-      margin-top: 10px;
       font-size: 13px;
+      margin-top: 8px;
       display: none;
     }
 
-    .msg.success {
-      color: #2e7d32;
-      display: block;
-    }
-
-    .msg.error {
-      color: #8c1b1b;
-      display: block;
-    }
+    .msg.success { color: #2e7d32; display: block; }
+    .msg.error { color: #8c1b1b; display: block; }
   </style>
 </head>
 <body>
   <div class="card">
-    <img src="logo.png" alt="AllergoZyme Logo" class="logo" />
+    <img src="logo.png" alt="AllergoZyme Logo" />
     <h1>Identification</h1>
 
     <form id="loginForm">
@@ -224,76 +225,85 @@
         <a href="#" id="forgotLink">Mot de passe oublié ?</a>
       </div>
 
-      <button type="submit" class="btn btn-primary">Se connecter</button>
+      <button type="submit" class="btn-primary">Se connecter</button>
     </form>
 
     <a href="inscription.html" class="link">Créer un compte</a>
   </div>
 
-  <!-- Modal mot de passe oublié -->
-  <div class="modal-backdrop" id="modal">
-    <div class="modal">
+  <!-- Popup réinitialisation -->
+  <div class="popup-backdrop" id="popup">
+    <div class="popup">
+      <img src="logo.png" alt="AllergoZyme Logo" />
       <h2>Réinitialiser le mot de passe</h2>
-      <p>Entrez votre adresse e-mail. Un lien de réinitialisation vous sera envoyé si un compte existe.</p>
+      <p>Entrez votre adresse e-mail pour recevoir un lien sécurisé.</p>
       <input type="email" id="resetEmail" placeholder="exemple@email.com" />
-      <button id="sendReset" class="btn btn-primary">Envoyer le lien</button>
-      <button id="closeModal" class="btn" style="background:transparent;color:var(--gold-dark);border:1px solid rgba(212,175,55,0.4);margin-top:8px;">Annuler</button>
+      <button id="resetBtn">Valider</button>
+      <button class="close" id="closePopup">Annuler</button>
       <div id="resetMsg" class="msg"></div>
     </div>
   </div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-    const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    const supabase = createClient(
+      'https://tmrraeutjrcsozijjbzm.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+    )
 
     const loginForm = document.getElementById('loginForm')
-    const emailInput = document.getElementById('email')
-    const passwordInput = document.getElementById('password')
-    const modal = document.getElementById('modal')
+    const popup = document.getElementById('popup')
     const forgotLink = document.getElementById('forgotLink')
-    const closeModal = document.getElementById('closeModal')
-    const sendReset = document.getElementById('sendReset')
+    const closePopup = document.getElementById('closePopup')
+    const resetBtn = document.getElementById('resetBtn')
     const resetEmail = document.getElementById('resetEmail')
     const resetMsg = document.getElementById('resetMsg')
 
+    // Ouvrir popup
     forgotLink.addEventListener('click', e => {
       e.preventDefault()
-      modal.style.display = 'flex'
-      resetMsg.style.display = 'none'
+      popup.style.display = 'flex'
       resetEmail.value = ''
+      resetMsg.style.display = 'none'
     })
 
-    closeModal.addEventListener('click', () => { modal.style.display = 'none' })
-    modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none' })
+    // Fermer popup
+    closePopup.addEventListener('click', () => popup.style.display = 'none')
+    popup.addEventListener('click', e => { if (e.target === popup) popup.style.display = 'none' })
 
-    sendReset.addEventListener('click', async () => {
+    // Envoi lien réinitialisation
+    resetBtn.addEventListener('click', async () => {
       const email = resetEmail.value.trim()
       if (!email) {
-        resetMsg.textContent = 'Veuillez renseigner une adresse e-mail.'
+        resetMsg.textContent = 'Veuillez renseigner votre e-mail.'
         resetMsg.className = 'msg error'
         return
       }
+
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.origin + '/reset.html'
       })
+
       if (error) {
-        resetMsg.textContent = 'Erreur : ' + error.message
+        resetMsg.textContent = '❌ ' + error.message
         resetMsg.className = 'msg error'
       } else {
-        resetMsg.textContent = 'Un lien de réinitialisation a été envoyé à votre e-mail.'
+        resetMsg.textContent = '✅ Lien envoyé ! Vérifiez votre boîte mail.'
         resetMsg.className = 'msg success'
+        setTimeout(() => popup.style.display = 'none', 2500)
       }
     })
 
+    // Connexion utilisateur
     loginForm.addEventListener('submit', async e => {
       e.preventDefault()
-      const email = emailInput.value.trim()
-      const password = passwordInput.value.trim()
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const email = document.getElementById('email').value.trim()
+      const password = document.getElementById('password').value
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) {
-        alert('Erreur : ' + error.message)
+        alert('❌ ' + error.message)
       } else {
         window.location.href = 'dashboard.html'
       }

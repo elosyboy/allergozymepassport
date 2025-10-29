@@ -126,6 +126,17 @@
       border-radius: 8px;
       display: none;
     }
+    .error {
+      text-align: center;
+      font-size: 15px;
+      margin-top: 15px;
+      color: #8c1b1b;
+      background: #fdecea;
+      border: 1px solid #f5c2c0;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
     footer {
       text-align: center;
       margin-top: 30px;
@@ -144,51 +155,44 @@
     </p>
 
     <form id="signupForm">
-      <div>
-        <label>Nom</label>
-        <input type="text" id="nom" required />
-      </div>
-      <div>
-        <label>Prénom</label>
-        <input type="text" id="prenom" required />
-      </div>
-      <div>
-        <label>Email (doit être le même que votre compte PayPal)</label>
-        <input type="email" id="email" required />
-      </div>
-      <div>
-        <label>Mot de passe</label>
-        <input type="password" id="password" required />
-      </div>
-      <div>
-        <label>Numéro de téléphone</label>
-        <input type="tel" id="telephone" required />
-      </div>
-      <div>
-        <label>Adresse</label>
-        <input type="text" id="adresse" required />
-      </div>
-      <div>
-        <label>Code postal</label>
-        <input type="number" id="codepostal" required />
-      </div>
-      <div>
-        <label>Ville</label>
-        <input type="text" id="ville" required />
-      </div>
-      <div>
-        <label>Pays</label>
-        <input type="text" id="pays" required />
-      </div>
+      <label>Nom</label>
+      <input type="text" id="nom" required />
+
+      <label>Prénom</label>
+      <input type="text" id="prenom" required />
+
+      <label>Email (même que PayPal)</label>
+      <input type="email" id="email" required />
+
+      <label>Mot de passe</label>
+      <input type="password" id="password" required minlength="6" />
+
+      <label>Téléphone</label>
+      <input type="tel" id="telephone" required />
+
+      <label>Adresse</label>
+      <input type="text" id="adresse" required />
+
+      <label>Code postal</label>
+      <input type="number" id="codepostal" required />
+
+      <label>Ville</label>
+      <input type="text" id="ville" required />
+
+      <label>Pays</label>
+      <input type="text" id="pays" required />
 
       <div class="checkbox-container">
         <input type="checkbox" id="consent" required />
-        <label for="consent">J’accepte que mes données soient enregistrées (elles ne seront jamais divulguées à des tiers).</label>
+        <label for="consent">
+          J’accepte que mes données soient enregistrées et protégées conformément à la politique de confidentialité d’AllergoZyme.
+        </label>
       </div>
 
       <button type="submit" class="btn">S'inscrire</button>
 
       <div class="success" id="msgSuccess"></div>
+      <div class="error" id="msgError"></div>
     </form>
   </div>
 
@@ -212,10 +216,12 @@
 
     const form = document.getElementById('signupForm')
     const msgSuccess = document.getElementById('msgSuccess')
+    const msgError = document.getElementById('msgError')
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault()
       msgSuccess.style.display = 'none'
+      msgError.style.display = 'none'
 
       const nom = document.getElementById('nom').value.trim()
       const prenom = document.getElementById('prenom').value.trim()
@@ -229,31 +235,28 @@
       const codePromo = genererCodeUnique()
 
       try {
-        const { error } = await supabase.auth.signUp({
+        const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
+            emailRedirectTo: window.location.origin + '/confirmation.html',
             data: { nom, prenom, telephone, adresse, codepostal, ville, pays, codePromo }
           }
         })
-        if (error) console.warn('Supabase signup:', error)
+
+        if (signUpError) throw signUpError
 
         await supabase
           .from('vendeurs')
           .insert([{ nom: `${prenom} ${nom}`, email, paypal_email: email, code_promo: codePromo }])
 
-        msgSuccess.innerHTML = `
-          ✅ Compte créé avec succès !<br>
-          Veuillez <strong>confirmer votre adresse e-mail</strong> avant de vous reconnecter.
-        `
-        msgSuccess.style.display = 'block'
+        // Rediriger vers la page de validation
+        window.location.href = 'valideinscription.html'
+
       } catch (err) {
-        console.warn('Erreur non bloquante:', err)
-        msgSuccess.innerHTML = `
-          ✅ Compte créé avec succès !<br>
-          Veuillez <strong>confirmer votre adresse e-mail</strong> avant de vous reconnecter.
-        `
-        msgSuccess.style.display = 'block'
+        console.error('Erreur:', err)
+        msgError.textContent = '❌ ' + (err.message || 'Une erreur est survenue. Réessayez plus tard.')
+        msgError.style.display = 'block'
       }
     })
   </script>
