@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Réinitialisation du mot de passe — AllergoZyme Passport</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #fffdf7, #fef7e1);
+      font-family: 'Poppins', sans-serif;
+      color: #4a3a0a;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      border-radius: 22px;
+      border: 1px solid rgba(212,175,55,0.3);
+      padding: 45px 35px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      max-width: 460px;
+      animation: fadeIn 0.7s ease;
+    }
+    img {
+      width: 90px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #b4912e;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    p {
+      color: #6e5b1b;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.4);
+      margin-bottom: 20px;
+      font-size: 15px;
+      outline: none;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    input:focus {
+      border-color: #b4912e;
+      box-shadow: 0 0 10px rgba(212,175,55,0.3);
+    }
+    button {
+      background: linear-gradient(135deg, #d4af37, #b4912e);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #b4912e, #d4af37);
+      transform: translateY(-2px);
+    }
+    .success {
+      color: #b4912e;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #8c6f1f;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="logo.png" alt="AllergoZyme Logo" />
+    <h1>Réinitialisez votre mot de passe</h1>
+    <p>Choisissez un nouveau mot de passe pour accéder à votre espace AllergoZyme Passport.</p>
+    <input type="password" id="newPassword" placeholder="Nouveau mot de passe" />
+    <button id="resetBtn">Mettre à jour</button>
+    <div id="message" class="success"></div>
+  </div>
+
+  <footer>© AllergoZyme Passport — Données confidentielles et sécurisées.</footer>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    const supabase = createClient("https://tmrraeutjrcsozijjbzm.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g");
+
+    document.getElementById("resetBtn").addEventListener("click", async () => {
+      const newPassword = document.getElementById("newPassword").value;
+      const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+
+      const message = document.getElementById("message");
+      if (error) {
+        message.textContent = "❌ Erreur : " + error.message;
+      } else {
+        message.textContent = "✅ Mot de passe mis à jour avec succès !";
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -16,14 +16,15 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      overflow: hidden;
     }
     .card {
       background: white;
-      border-radius: 20px;
+      border-radius: 22px;
       border: 1px solid rgba(212,175,55,0.3);
       padding: 50px 35px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      max-width: 500px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      max-width: 520px;
       animation: fadeIn 0.7s ease;
     }
     img {
@@ -46,13 +47,16 @@
       background: linear-gradient(135deg, #d4af37, #b4912e);
       color: white;
       text-decoration: none;
-      padding: 12px 28px;
+      padding: 12px 30px;
       border-radius: 999px;
       font-weight: 600;
       margin-top: 25px;
       transition: all 0.25s ease;
     }
-    .btn:hover { background: linear-gradient(135deg, #b4912e, #d4af37); transform: translateY(-2px); }
+    .btn:hover {
+      background: linear-gradient(135deg, #b4912e, #d4af37);
+      transform: translateY(-2px);
+    }
     footer {
       margin-top: 40px;
       font-size: 13px;
@@ -70,16 +74,23 @@
 </head>
 <body>
   <div class="card">
-    <img src="https://i.imgur.com/Li4jRGV.png" alt="AllergoZyme Logo" />
-    <h1>Votre compte est activé 🎉</h1>
+    <img src="logo.png" alt="AllergoZyme Logo" />
+    <h1>🎉 Votre compte est activé</h1>
     <p>
-      Bienvenue dans l’aventure <strong>AllergoZyme Passport</strong> !<br>
-      Votre compte a été confirmé avec succès.<br>
-      Vous pouvez désormais vous connecter à votre espace personnel.
+      Bienvenue dans l’univers <strong>AllergoZyme Passport</strong> 🌿<br>
+      Votre inscription a été validée avec succès.<br>
+      Vous allez être redirigé automatiquement vers votre espace personnel.
     </p>
-    <a href="https://allergozymepassport.com/login.html" class="btn">Accéder à mon compte</a>
+    <a href="dashboard.html" class="btn">Accéder à mon compte</a>
   </div>
 
   <footer>© AllergoZyme Passport — Données confidentielles et sécurisées.</footer>
+
+  <script>
+    // Redirection automatique après 5 secondes
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 5000);
+  </script>
 </body>
 </html>
