@@ -1,278 +1,361 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AllergoZyme Passport </title>
-  <meta name="description" content="AllergoZyme Passport : créez votre passeport allergies / intolérances / diabète, gagnez 10 € par établissement ajouté, et accédez à un puissant cadre de protection et de preuve en cas de problème." />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AllergoZyme Passport — Monolithe Noir</title>
+<meta name="description" content="AllergoZyme Passport — QR d’établissement, preuve opposable, suivi clair, 10 € quand vous faites inscrire un restaurant avec votre code personnel. Style monolithe noir, précis et premium."/>
+<link rel="icon" href="logo2.png"/>
 
-  <!-- Favicon (optionnel, utilise le même logo) -->
-  <link rel="icon" href="logo2.png" />
+<style>
+:root{
+  --black:#0a0a0a; --black2:#0d0d0e; --black3:#131316; --black4:#0b0b0c;
+  --ink:#e7e7ea; --mute:#a8a8b6;
+  --gold:#b6952a; --line:#202024;
+  --r:22px; --maxw:1300px;
+}
+/* Reset & base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--black); color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  line-height:1.58; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; overflow-x:hidden;
+}
+a{color:var(--ink); text-decoration:none} a:hover{text-decoration:underline}
+img{max-width:100%; height:auto}
 
-  <style>
-    :root {
-      --gold: #d4af37; /* Doré élégant */
-      --gold-700: #b4912e;
-      --gold-900: #8c6f1f;
-      --bg: #ffffff;   /* Fond blanc */
-      --ink: var(--gold); /* Écriture dorée */
-      --shadow: 0 10px 30px rgba(0,0,0,0.06);
-      --radius: 16px;
-      --maxw: 1100px;
-    }
+/* Background layers */
+.gridbg{position:fixed; inset:-20vh -20vw; z-index:0;
+  background:
+    radial-gradient(800px 400px at 50% -10%, rgba(183,149,40,.08), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 80px);
+  mask-image: radial-gradient(80% 60% at 50% 40%, black, transparent);
+  animation: drift 60s linear infinite;
+}
+.noise{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.28; mix-blend-mode:soft-light;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0 .05 .12 .05 0 0"/></feComponentTransfer></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+}
+@keyframes drift{to{transform:translate3d(-30px,-20px,0)}}
 
-    * { box-sizing: border-box; }
+/* Layout */
+.container{max-width:var(--maxw); margin:0 auto; padding:0 24px; position:relative; z-index:1}
 
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
+/* Header */
+header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(10,10,10,.6); border-bottom:1px solid var(--line)}
+.nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+.brand{display:flex; align-items:center; gap:14px}
+.brand img{width:46px; height:46px; object-fit:contain; border-radius:10px; box-shadow:0 10px 26px rgba(182,149,42,.18)}
+.brand h1{margin:0; font-size:1rem; letter-spacing:.14em; font-weight:900; text-transform:uppercase;
+  background:linear-gradient(90deg,#fff,#d9d9e2 35%,#b9b9c6 60%,#fff);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.nav-actions{display:flex; gap:10px}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 18px; border-radius:999px; border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--black2),var(--black3)); color:var(--ink); box-shadow:inset 0 0 0 1px rgba(255,255,255,.02); transition:transform .18s ease, box-shadow .18s ease}
+.btn:hover{transform:translateY(-1px); box-shadow:0 14px 40px rgba(0,0,0,.6), 0 8px 26px rgba(182,149,42,.18)}
+.btn-primary{border-color:#2a2a32; background:linear-gradient(180deg,#151517,#0f0f12); color:#fff; position:relative}
+.btn-primary::after{content:""; position:absolute; inset:-1px; border-radius:999px; background:radial-gradient(1000px 60px at 50% -20%, rgba(182,149,42,.26), transparent)}
 
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+/* Hero */
+.hero{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; padding:84px 0 34px}
+@media (max-width:1100px){.hero{grid-template-columns:1fr}}
+.super{letter-spacing:.28em; text-transform:uppercase; font-size:.8rem; color:var(--mute)}
+.hero-title{margin:12px 0 16px; max-width:980px; font-size:clamp(2rem,4.6vw,3.4rem); font-weight:900; line-height:1.08}
+.lead{max-width:860px; color:var(--mute)}
+.goldline{height:3px; border-radius:999px; margin:18px 0; width:min(740px,92%); background:linear-gradient(90deg, rgba(182,149,42,0), rgba(182,149,42,.6), rgba(182,149,42,0)); background-size:200% 100%; animation:shimmer 7s linear infinite}
+@keyframes shimmer{0%{background-position:-200% 50%}100%{background-position:200% 50%}}
+.hero-cta{margin-top:22px; display:flex; gap:12px; flex-wrap:wrap}
+.hero-bonus{margin-top:12px; font-weight:700; letter-spacing:.02em; color:#fff; background:linear-gradient(90deg, rgba(182,149,42,.16), rgba(182,149,42,.08));
+  display:inline-block; padding:10px 14px; border-radius:999px; border:1px solid var(--line); box-shadow:0 12px 36px rgba(182,149,42,.18)}
 
-    a { color: var(--gold-900); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+/* Hero counters (RIGHT) */
+.hero-right{display:flex; align-items:center; justify-content:flex-end}
+.stats{display:flex; gap:16px; flex-wrap:wrap}
+.stat{min-width:200px; text-align:center; border:1px solid var(--line); border-radius:16px; padding:14px 16px; background:linear-gradient(180deg,var(--black2),var(--black3)); position:relative; overflow:hidden}
+.stat::before{content:""; position:absolute; inset:-1px; border-radius:16px; background:radial-gradient(900px 110px at 50% -10%, rgba(182,149,42,.18), transparent 55%)}
+.stat .big{font-size:1.9rem; font-weight:900}
+.stat .label{font-size:.86rem; color:var(--mute)}
 
-    /* Header */
-    .site-header {
-      position: sticky;
-      top: 0;
-      background: linear-gradient(180deg, #fff, #fffef8);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      z-index: 50;
-    }
-    .header-inner {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
-    .brand img {
-      width: 40px; height: 40px; object-fit: contain; border-radius: 8px; box-shadow: var(--shadow);
-    }
-    .brand span { font-size: 18px; }
+/* Panels */
+.panel{background:linear-gradient(180deg,var(--black2),var(--black3)); border:1px solid var(--line); border-radius:var(--r); padding:26px; position:relative; overflow:hidden; margin:0 0 24px; transform-style:preserve-3d}
+.panel[data-tilt]::after{content:""; position:absolute; inset:-1px; border-radius:var(--r); background:radial-gradient(1000px 120px at 30% -10%, rgba(182,149,42,.12), transparent 50%)}
+.k{font-size:.85rem; text-transform:uppercase; color:var(--mute); letter-spacing:.12em}
+.panel h3{margin:6px 0 8px; font-size:1.28rem}
 
-    .actions { display: inline-flex; gap: 10px; }
+/* Planet — with centered logo */
+.planet-wrap{display:grid; place-items:center; padding:42px 0 64px}
+.planet{
+  width:min(480px,64vw); aspect-ratio:1/1; border-radius:50%;
+  position:relative; isolation:isolate;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255,255,255,.22), rgba(255,255,255,0) 18%),
+    radial-gradient(circle at 40% 55%, rgba(182,149,42,.55), rgba(182,149,42,.06) 48%),
+    radial-gradient(circle at 70% 40%, rgba(182,149,42,.32), rgba(0,0,0,.0) 50%),
+    radial-gradient(circle at 50% 50%, #1b1b1d, #0c0c0f 70%);
+  box-shadow: 0 0 0 1px var(--line), 0 60px 160px rgba(182,149,42,.18);
+  animation: spin 26s linear infinite;
+}
+/* soft ring + gloss */
+.planet::before{content:""; position:absolute; inset:-10%; border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(182,149,42,.16), transparent 30% 70%, rgba(182,149,42,.16));
+  filter:blur(16px); mask-image:radial-gradient(circle at 50% 50%, black 58%, transparent 72%);
+}
+.planet::after{content:""; position:absolute; inset:6%; border-radius:50%;
+  background:radial-gradient(60% 40% at 60% 30%, rgba(255,255,255,.14), transparent 50%), conic-gradient(from 120deg, rgba(255,255,255,.06), transparent 40% 60%, rgba(255,255,255,.06));
+  mix-blend-mode:screen; opacity:.7; animation:gloss 7s ease-in-out infinite alternate;
+}
+/* Centered logo with effects */
+.planet .logo-core{
+  position:absolute; inset:0; display:grid; place-items:center; z-index:2;
+}
+.planet .logo-core img{
+  width:48%; height:auto; object-fit:contain; filter:drop-shadow(0 14px 34px rgba(182,149,42,.25));
+}
+/* Aura + pulse */
+.planet .aura{
+  position:absolute; inset:0; border-radius:50%; z-index:1;
+  background:
+    radial-gradient(closest-side, rgba(182,149,42,.22), rgba(182,149,42,0) 70%),
+    radial-gradient(closest-side, rgba(255,255,255,.08), transparent 60%);
+  animation:pulse 3.8s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(0.98); opacity:.75}
+  50%{transform:scale(1.02); opacity:.95}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes gloss{from{opacity:.6; transform:rotate(-6deg)} to{opacity:.85; transform:rotate(6deg)}}
 
-    .btn {
-      border: 2px solid var(--gold);
-      color: var(--gold);
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: 600;
-      background: transparent;
-      transition: transform .06s ease, background .2s ease, color .2s ease, border-color .2s ease;
-      cursor: pointer;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
+/* Sections */
+.section{max-width:var(--maxw); margin:56px auto 0; padding:0 24px}
+.card{border:1px solid var(--line); border-radius:var(--r); background:linear-gradient(180deg,var(--black2),var(--black3)); padding:28px; box-shadow:0 12px 38px rgba(182,149,42,.16)}
 
-    .btn-primary {
-      background: var(--gold);
-      color: #fff;
-      border-color: var(--gold);
-    }
-    .btn-primary:hover { background: var(--gold-700); border-color: var(--gold-700); }
+/* Footer */
+footer{margin-top:60px; border-top:1px solid var(--line); background:var(--black4)}
+.foot{max-width:var(--maxw); margin:0 auto; padding:24px; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; color:var(--mute)}
+.dot{width:12px; height:12px; border-radius:50%; background:radial-gradient(circle at 40% 40%, #d8b74b, #b6952a 50%, #2a2410 75%); box-shadow:0 0 0 1px var(--line), 0 0 22px rgba(182,149,42,.35)}
 
-    .btn-outline:hover { background: rgba(212,175,55,0.08); }
-
-    /* Hero */
-    .hero {
-      max-width: var(--maxw);
-      margin: 36px auto;
-      padding: 0 18px 10px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 28px;
-    }
-    .hero-card {
-      background: #fff;
-      border: 1px solid rgba(212,175,55,0.25);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px;
-    }
-    .kicker { text-transform: uppercase; font-size: 12px; letter-spacing: 1.2px; opacity: 0.9; }
-    h1 {
-      margin: 10px 0 14px;
-      line-height: 1.15;
-      font-size: clamp(28px, 3vw, 40px);
-      color: var(--gold-900);
-    }
-    .lead { font-size: 17px; opacity: 0.95; }
-
-    .hero-cta { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
-
-    /* Sections */
-    .section {
-      max-width: var(--maxw);
-      margin: 22px auto;
-      padding: 0 18px;
-    }
-    .section-card {
-      background: #fff;
-      border: 1px solid rgba(212,175,55,0.22);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px;
-    }
-    .section h2 {
-      margin: 0 0 10px 0; font-size: 22px; color: var(--gold-900);
-    }
-
-    .grid-2 { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .grid-2 { grid-template-columns: 1fr; } }
-
-    ul { padding-left: 18px; margin: 10px 0; }
-
-    .note {
-      padding: 12px 14px;
-      border: 1px dashed rgba(212,175,55,0.6);
-      border-radius: 12px;
-      background: #fffdf6;
-      font-size: 14px;
-    }
-
-    /* Footer */
-    footer {
-      max-width: var(--maxw);
-      margin: 40px auto 60px;
-      padding: 0 18px;
-      display: grid;
-      gap: 10px;
-      color: var(--gold-900);
-    }
-    .muted { opacity: 0.9; font-size: 14px; }
-  </style>
+/* Motion safety */
+@media (prefers-reduced-motion:reduce){
+  .gridbg,.planet,.planet::after{animation:none !important}
+  .btn,.panel,.card{transition:none !important}
+}
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="./index.html" aria-label="AllergoZyme Passport — Accueil">
-        <img src="logo2.png" alt="Logo AllergoZyme" />
-        <span>AllergoZyme <strong>Passport</strong></span>
-      </a>
-      <nav class="actions" aria-label="Actions">
-        <a class="btn btn-outline" href="identification.html">Identification</a>
-        <a class="btn btn-primary" href="inscription.html">Inscription</a>
+  <div class="gridbg" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header role="banner">
+    <div class="container nav">
+      <div class="brand" aria-label="AllergoZyme Passport">
+        <img src="logo.png" alt="Logo AllergoZyme"/>
+        <h1>AllergoZyme Passport</h1>
+      </div>
+      <nav class="nav-actions" aria-label="Navigation">
+        <a class="btn" href="identification.html">Identification</a>
+        <a class="btn btn-primary" href="inscription.html">Créer mon passeport</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
-  <main>
-    <section class="hero" aria-labelledby="titre-hero">
-      <div class="hero-card">
-        <div class="kicker">Votre santé, vos droits, vos preuves</div>
-        <h1 id="titre-hero">Créez votre passeport allergies / intolérances / diabète</h1>
+  <main class="container" role="main">
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="super">Allergies • Intolérances • Diabète</div>
+        <h2 id="hero-title" class="hero-title">Votre identité santé opposable.<br/>QR d’établissement. Preuve lisible.</h2>
+        <div class="goldline" aria-hidden="true"></div>
         <p class="lead">
-          Avec <strong>AllergoZyme Passport</strong>, centralisez vos informations médicales utiles (allergènes, intolérances, diabète),
-          sécurisez des <em>preuves</em> d’information en cas de litige, et profitez d’un canal simple pour <strong>gagner 10 €</strong> par établissement
-          (restaurant, snack, boulangerie, chef privé, etc.) que vous faites adhérer au label.
+          Le QR n’appartient pas au client : il est affiché par le <strong>restaurant</strong>. Vous scannez, vous vous identifiez — ou vous remplissez
+          immédiatement vos informations (allergènes, intolérances, besoins diabétiques). Lecture, confirmation, <em>horodatage</em> : tout devient
+          interprétable, mémorisable et opposable, sans friction.
         </p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="inscription.html">Créer mon compte</a>
-          <a class="btn btn-outline" href="identification.html">J’ai déjà un compte</a>
+        <div class="hero-cta" role="group" aria-label="Actions principales">
+          <a class="btn btn-primary" href="inscription.html">Créer mon passeport</a>
+          <a class="btn" href="identification.html">J’ai déjà un compte</a>
         </div>
+        <div class="hero-bonus">Gagnez <strong>10 €</strong> quand vous faites inscrire un restaurant avec votre code personnel.</div>
       </div>
-      <div class="hero-card">
-        <h2 style="margin-top:0">Pourquoi maintenant ?</h2>
+
+      <aside class="hero-right" aria-label="Statistiques globales">
+        <div class="stats">
+          <div class="stat" role="status" aria-live="polite"><div class="big" id="passportCount">4 883</div><div class="label">Passeports actifs</div></div>
+          <div class="stat" role="status" aria-live="polite"><div class="big" id="restaurantCount">729</div><div class="label">Établissements labellisés</div></div>
+          <div class="stat" role="status" aria-live="polite"><div class="big" id="signatureCount">18 177</div><div class="label">Validations enregistrées</div></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Panels -->
+    <section aria-label="Explications">
+      <article class="panel" data-tilt>
+        <div class="k">Pourquoi ce standard ?</div>
+        <h3>Parce que l’époque exige des preuves structurées.</h3>
         <p>
-          La vague d’<strong>allergies</strong>, d’<strong>intolérances</strong> et de <strong>diabète</strong> ne cesse de grandir. Nous ne pouvons plus passer à côté d’un cadre clair,
-          <strong>juridiquement solide</strong> et <strong>simple à utiliser</strong> pour protéger les consommateurs, responsabiliser les établissements et fluidifier l’information.
+          Menus mouvants, équipes qui tournent, risques d’exposition — la <em>bonne foi</em> ne suffit plus. Il faut une <strong>grammaire de preuve</strong> qui encode
+          “qui a été informé, quand, sur quoi”. Avec AllergoZyme Passport, vos nécessités deviennent un format lisible, enregistré, partageable,
+          qui <em>tranquillise</em> les établissements et vous <em>protège</em> juridiquement.
         </p>
-        <p class="note">AllergoZyme <strong>Protect</strong> & <strong>Passport</strong> vous assistent en cas de problème, comme un <em>dossier de preuve</em> prêt à l’emploi (horodatage, traçabilité, texte d’information prérempli, etc.).
-        Du côté des établissements, c’est un cadre clair, rassurant et contrôlable via un <strong>QR code</strong> et notre <a href="https://www.allergozymelabel.com" target="_blank" rel="noopener">carte officielle</a>.</p>
-      </div>
-    </section>
+        <p>
+          Vous ne racontez plus un cas fragile : vous présentez un protocole clair, <strong>interopérable</strong>, <strong>opposable</strong> et <strong>retrouvable</strong>. C’est une
+          infrastructure personnelle qui fait disparaître l’ambiguïté et réduit le conflit à l’état de rareté.
+        </p>
+      </article>
 
-    <!-- À quoi ça sert / Bénéfices -->
-    <section class="section">
-      <div class="section-card grid-2">
-        <div>
-          <h2>À quoi ça sert&nbsp;?</h2>
-          <ul>
-            <li>Créer votre <strong>passeport santé</strong> (allergènes, intolérances, diabète) et le partager via QR code.</li>
-            <li>Disposer d’un <strong>texte d’information pré‑rempli</strong> après inscription (à présenter aux établissements).</li>
-            <li>Conserver des <strong>preuves</strong> (qui a été informé, quand, sur quoi) en cas de litige.</li>
-            <li>Suivre vos <strong>établissements ajoutés</strong> et vos gains.</li>
-          </ul>
-        </div>
-        <div>
-          <h2>Pourquoi créer un compte&nbsp;?</h2>
-          <ul>
-            <li>Accéder à votre <strong>page personnelle</strong> et à votre <strong>QR code</strong> d’identification rapide.</li>
-            <li>Déclarer vos <strong>allergènes</strong> (14 principaux + «&nbsp;autre&nbsp;»), <em>une seule fois</em>.</li>
-            <li>Gagner <strong>10 € par établissement</strong> que vous faites adhérer (via votre code personnel).</li>
-            <li>Consulter l’<strong>historique</strong> de vos ajouts&nbsp;: nom de l’établissement, date, statut.</li>
-          </ul>
-          <p class="note"><strong>Important&nbsp;:</strong> le texte explicatif <em>prédéfini</em> pour présenter la démarche aux restaurants vous sera fourni <strong>juste après l’inscription</strong>.</p>
-        </div>
-      </div>
-    </section>
+      <article class="panel" data-tilt>
+        <div class="k">QR d’établissement</div>
+        <h3>Le QR est posé dans le restaurant ; vous scannez, et la preuve naît.</h3>
+        <p>
+          Chaque établissement dispose d’un QR unique (table, comptoir, carte) pointant vers <code>scan.html?restaurant_id=…</code>. Vous vous connectez
+          en quelques secondes, ou vous remplissez votre page immédiatement. L’établissement lit, comprend, confirme ; l’<strong>horodatage</strong> est enregistré.
+          La traçabilité devient naturelle ; la responsabilité, <em>lisible</em>.
+        </p>
+      </article>
 
-    <!-- Comment ça marche -->
-    <section class="section">
-      <div class="section-card">
-        <h2>Comment ça marche&nbsp;?</h2>
-        <ol>
-          <li><strong>Inscrivez‑vous</strong> (nom, prénom, e‑mail, téléphone, adresse, code postal, ville, pays). L’e‑mail doit être le <strong>même que votre PayPal</strong> pour recevoir vos 10 € / établissement validé.</li>
-          <li>Accédez à votre <strong>page personnelle</strong> avec le bouton <em>« Remplir ma page allergie »</em>.</li>
-          <li>Cochez les <strong>14 allergènes</strong> et/ou ajoutez vos spécificités (<em>Autre</em>). Une fois validé, le formulaire disparaît et un bouton <em>« Modifier mes allergènes »</em> apparaît.</li>
-          <li>Partagez votre <strong>QR code</strong> en restaurant&nbsp;: ils accèdent directement à vos infos (stockées sur <strong>Supabase</strong>) et peuvent s’enregistrer.</li>
-          <li>Depuis votre page, utilisez <em>« Faire adhérer un établissement »</em> (restaurant, snack, chef privé, boulangerie, etc.). Votre <strong>code personnel</strong> unique est automatiquement associé.</li>
-          <li>Suivez vos <strong>gains</strong> et vos <strong>établissements</strong> (nom, date, statut) dans le tableau de suivi.</li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- Cadre Protect/Passport -->
-    <section class="section">
-      <div class="section-card grid-2">
-        <div>
-          <h2>AllergoZyme Protect & Passport</h2>
-          <p>
-            Deux faces d’un même outil&nbsp;: <strong>Passport</strong> structure vos informations et la traçabilité&nbsp;; <strong>Protect</strong> sécurise les preuves et
-            fournit un <strong>cadre juridique</strong> puissant en cas de problème. Ensemble, ils fluidifient la relation client‑établissement et réduisent les risques.
-          </p>
+      <article class="panel" data-tilt aria-labelledby="gains">
+        <div class="k">Gains 10 €</div>
+        <h3 id="gains">10 € quand vous faites inscrire un restaurant avec votre code.</h3>
+        <p>
+          À l’inscription, vous recevez votre <strong>code personnel</strong> (ex. <strong>AA-2222</strong>) affiché sur votre page. Faites inscrire un restaurant en lui
+          donnant ce code : une fois le paiement de l’établissement confirmé, vous recevez <strong>10 €</strong> sous <strong>14 jours</strong>.
+        </p>
+        <p>
+          Votre e-mail AllergoZyme doit être <strong>identique</strong> à l’e-mail de votre compte <strong>PayPal</strong> pour le versement. Suivi en temps réel : établissements,
+          paiements, historique. Clair, propre, opposable.
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px">
+          <a class="btn btn-primary" href="inscription.html">Activer mon code</a>
+          <a class="btn" href="identification.html">Consulter mon solde</a>
         </div>
-        <div>
-          <h2>La carte officielle</h2>
-          <p>
-            Retrouvez les établissements sur la carte&nbsp;: <a href="https://www.allergozymelabel.com" target="_blank" rel="noopener">www.allergozymelabel.com</a>.
-          </p>
-          <p class="note">Scannez le QR code d’un établissement pour vérifier son statut. Depuis votre compte, votre <em>QR code personnel</em> permet aussi un accès direct et sécurisé à votre passeport.</p>
-        </div>
-      </div>
+      </article>
     </section>
   </main>
 
-  <footer>
-    <div class="muted">© <span id="year"></span> AllergoZyme. Tous droits réservés.</div>
-    <div class="muted">En vous inscrivant, vous acceptez l’enregistrement de vos données (non divulguées à des tiers) conformément à notre cadre de protection.</div>
+  <!-- Planet at bottom with centered logo -->
+  <section class="planet-wrap" aria-label="Standard planétaire">
+    <div class="planet" role="img" aria-label="Planète — Logo AllergoZyme au centre">
+      <div class="aura" aria-hidden="true"></div>
+      <div class="logo-core">
+        <img src="logo.png" alt="Logo AllergoZyme"/>
+      </div>
+    </div>
+  </section>
+
+  <footer role="contentinfo">
+    <div class="foot">
+      <div style="display:flex; align-items:center; gap:10px">
+        <span class="dot" aria-hidden="true"></span>
+        <strong>AllergoZyme Passport</strong>
+      </div>
+      <div>© <span id="year"></span> — Tous droits réservés.</div>
+      <nav style="display:flex; gap:14px">
+        <a href="inscription.html">S’inscrire</a>
+        <a href="identification.html">Se connecter</a>
+        <a href="#gains">Gains 10 €</a>
+      </nav>
+    </div>
   </footer>
 
+  <!-- Scripts -->
   <script>
-    // Mise à jour de l'année
+    // Année dynamique
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tilt 3D performant + respect prefers-reduced-motion
+    (function(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduce) return;
+      const cards = document.querySelectorAll('[data-tilt]');
+      let raf = null, dx = 0, dy = 0;
+      function apply(){
+        raf = null;
+        for(const el of cards){
+          el.style.transform = `perspective(1000px) rotateY(${dx*5.5}deg) rotateX(${ -dy*5.5}deg)`;
+        }
+      }
+      function onMove(e){
+        const cx = window.innerWidth/2, cy = window.innerHeight/2;
+        dx = (e.clientX - cx) / cx;
+        dy = (e.clientY - cy) / cy;
+        if(raf===null) raf = requestAnimationFrame(apply);
+      }
+      function reset(){
+        for(const el of cards){ el.style.transform = 'none'; }
+      }
+      window.addEventListener('mousemove', onMove, {passive:true});
+      window.addEventListener('mouseleave', reset);
+    })();
+
+    // Compteurs animés
+    function onlyDigits(s){let out=''; for(let i=0;i<s.length;i++){const c=s[i]; if(c>='0' && c<='9') out+=c;} return out;}
+    function animateCount(el, to){
+      const start = parseInt(onlyDigits(el.textContent)||'0',10);
+      const t0 = performance.now();
+      const dur = 1100 + Math.random()*600;
+      function step(t){
+        const p = Math.min(1,(t-t0)/dur);
+        const val = Math.floor(start + (to-start)*p);
+        el.textContent = val.toLocaleString('fr-FR');
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    async function refreshCounters(){
+      const pass = document.getElementById('passportCount');
+      const rest = document.getElementById('restaurantCount');
+      const sig  = document.getElementById('signatureCount');
+      if(!window.__sb) return;
+      try{
+        const sb = window.__sb;
+        const [rSig, rRest, rVend] = await Promise.all([
+          sb.from('signatures').select('*', { count:'exact', head:true }),
+          sb.from('restaurant').select('*', { count:'exact', head:true }),
+          sb.from('vendeurs').select('*', { count:'exact', head:true }),
+        ]);
+        const sigCount  = (rSig && typeof rSig.count  === 'number') ? rSig.count  : 0;
+        const restCount = (rRest && typeof rRest.count === 'number') ? rRest.count : 0;
+        const vendCount = (rVend && typeof rVend.count === 'number') ? rVend.count : 0;
+
+        if(sig)  animateCount(sig,  18177 + sigCount);
+        if(rest) animateCount(rest,   729 + restCount);
+        if(pass) animateCount(pass,  4883 + vendCount);
+      }catch(e){/* silencieux */}
+    }
+
+    function setupRealtime(){
+      if(!window.__sb) return;
+      const sb = window.__sb;
+      sb.channel('realtime-counters')
+        .on('postgres_changes', { event:'INSERT', schema:'public', table:'signatures' }, refreshCounters)
+        .on('postgres_changes', { event:'INSERT', schema:'public', table:'restaurant' }, refreshCounters)
+        .on('postgres_changes', { event:'INSERT', schema:'public', table:'vendeurs' }, refreshCounters)
+        .subscribe();
+    }
+
+    // Init Supabase UMD quand dispo
+    (function initSupabaseWhenReady(){
+      const tryInit = () => {
+        if(window.supabase && !window.__sb){
+          const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co';
+          const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g';
+          window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          refreshCounters();
+          setupRealtime();
+          setInterval(refreshCounters, 15000);
+        }else if(!window.__sb){
+          requestAnimationFrame(tryInit);
+        }
+      };
+      tryInit();
+    })();
   </script>
+
+  <!-- Supabase UMD -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 </body>
 </html>

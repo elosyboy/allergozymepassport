@@ -4,117 +4,131 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inscription réussie — AllergoZyme Passport</title>
-  <link rel="icon" href="logo2.png" />
+  <link rel="icon" href="logo.png" />
   <style>
-    :root {
-      --gold: #d4af37;
-      --gold-dark: #b4912e;
-      --muted: #8c6f1f;
-      --bg: #fffef9;
-      --shadow: 0 8px 24px rgba(0,0,0,0.08);
-      --radius: 22px;
+    :root{
+      --gold:#d4af37;
+      --gold-dark:#b4912e;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;color:#fff;}
+    body{
+      min-height:100vh;
+      background:#000;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      position:relative;
+      overflow:hidden;
+      text-align:center;
+    }
+    body::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+      linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px) 0 0/22px 22px,
+      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px) 0 0/22px 22px;
+      opacity:.45;
+      pointer-events:none;
+    }
+    body::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:url('noise.png');
+      mix-blend-mode:overlay;
+      opacity:.12;
+      pointer-events:none;
     }
 
-    * { box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-
-    body {
-      margin: 0;
-      background: linear-gradient(180deg, #fffef8, #fff8e1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 30px;
-      color: var(--gold-dark);
-      text-align: center;
+    header{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:25px 0 38px;
+      z-index:2;
+    }
+    header img{
+      width:68px;
+      filter:drop-shadow(0 0 12px rgba(212,175,55,.55));
     }
 
-    .card {
-      background: #fff;
-      border-radius: var(--radius);
-      border: 1px solid rgba(212,175,55,0.3);
-      box-shadow: var(--shadow);
-      max-width: 480px;
-      width: 100%;
-      padding: 50px 35px;
-      animation: fadeIn 0.6s ease;
+    .card{
+      background:rgba(10,10,10,.55);
+      border:1px solid rgba(212,175,55,.35);
+      border-radius:22px;
+      padding:50px 35px;
+      width:100%;
+      max-width:500px;
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 30px rgba(212,175,55,.08);
+      animation:fade .6s ease;
+      z-index:2;
+    }
+    @keyframes fade{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+
+    img{
+      width:90px;
+      margin-bottom:15px;
+      filter:drop-shadow(0 0 12px rgba(212,175,55,.45));
+    }
+    h1{
+      font-size:26px;
+      color:var(--gold);
+      margin-bottom:12px;
+      text-shadow:0 0 8px rgba(212,175,55,.35);
+    }
+    p{
+      font-size:15px;
+      opacity:.85;
+      line-height:1.55;
+      margin-bottom:25px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+    .info-box{
+      background:rgba(212,175,55,.08);
+      border:1px solid rgba(212,175,55,.22);
+      border-radius:10px;
+      padding:14px;
+      margin:20px 0;
+      font-size:14px;
+      line-height:1.45;
+      color:var(--gold-dark);
     }
 
-    img {
-      width: 90px;
-      margin-bottom: 15px;
-      filter: drop-shadow(0 4px 8px rgba(212,175,55,0.4));
+    a.btn{
+      display:inline-block;
+      padding:13px 30px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+      color:#000;
+      font-weight:600;
+      text-decoration:none;
+      box-shadow:0 0 14px rgba(212,175,55,.35);
+      transition:.25s ease;
+    }
+    a.btn:hover{
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      transform:translateY(-2px);
     }
 
-    h1 {
-      color: var(--gold-dark);
-      font-size: 26px;
-      margin-bottom: 12px;
-    }
-
-    p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-    strong {
-      color: var(--gold-dark);
-    }
-
-    .btn {
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: #fff;
-      text-decoration: none;
-      display: inline-block;
-      padding: 13px 30px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 15px;
-      transition: all .25s ease;
-      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
-    }
-
-    .btn:hover {
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      transform: translateY(-2px);
-    }
-
-    .info-box {
-      background: #fffdf2;
-      border: 1px solid rgba(212,175,55,0.25);
-      border-radius: 10px;
-      padding: 14px;
-      margin: 20px 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .highlight {
-      background: rgba(212,175,55,0.1);
-      border-radius: 8px;
-      padding: 4px 8px;
+    footer{
+      margin-top:40px;
+      font-size:14px;
+      opacity:.5;
+      z-index:2;
     }
   </style>
 </head>
+
 <body>
+  <header><img src="logo.png" alt="logo"></header>
+
   <div class="card">
-    <img src="logo2.png" alt="AllergoZyme Logo" />
-    <h1>Inscription réussie 🎉</h1>
+    <img src="logo.png" alt="AllergoZyme Logo" />
+    <h1>Inscription réussie </h1>
     <p>
       Merci d’avoir rejoint <strong>AllergoZyme Passport</strong>.<br><br>
       Un e-mail de confirmation vient de vous être envoyé.<br>
@@ -122,7 +136,7 @@
     </p>
 
     <div class="info-box">
-      💡 <strong>Astuce :</strong> Si vous ne trouvez pas l’e-mail, vérifiez vos spams ou l’onglet “Promotions”.
+       <strong>Astuce :</strong> Si vous ne trouvez pas l’e-mail, vérifiez vos spams ou l’onglet “Promotions”.
     </div>
 
     <a href="identification.html" class="btn">J’ai confirmé, me connecter</a>
@@ -130,8 +144,6 @@
 
   <footer>© <span id="year"></span> AllergoZyme Passport — Données confidentielles et protégées.</footer>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById("year").textContent=new Date().getFullYear()</script>
 </body>
 </html>

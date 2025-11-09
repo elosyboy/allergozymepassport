@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AllergoZyme Passport — La nouvelle norme allergies</title>
+<meta name="description" content="AllergoZyme Passport : passeport allergies / intolérances / diabète. Informez instantanément les établissements, sécurisez des preuves, contribuez à un monde plus sûr et gagnez 10 € par établissement validé." />
+
+<!-- Favicon Google (logo sans fond) -->
+<link rel="icon" href="logo2.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="logo2.png" />
+
+<style>
+  :root{
+    --gold:#d4af37; --gold-600:#c9a134; --gold-700:#b4912e; --gold-900:#8c6f1f;
+    --ink:#111;               /* texte noir */
+    --bg:#ffffff;             /* fond blanc (avec cover image) */
+    --maxw:1240px;
+    --radius:22px;
+    --shadow:0 12px 30px rgba(0,0,0,.06);
+    --shadow-2:0 30px 60px rgba(0,0,0,.12);
+    --muted:#464646;
+  }
+
+  /* Reset / base */
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    color:var(--ink); line-height:1.65; background:var(--bg);
+    overflow-x:hidden;
+    /* Full background (image4.png) */
+    background-image:url('image4.png');
+    background-size:cover; background-repeat:no-repeat; background-position:center; background-attachment:fixed;
+  }
+  /* Voile blanc subtil pour lisibilité */
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
+    background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.92) 55%, rgba(255,255,255,.96) 100%);
+  }
+  img{max-width:100%; display:block}
+  a{color:var(--ink); text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes slideL{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+  @keyframes slideR{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+  @keyframes shimmer{0%{background-position:-200% 50%}100%{background-position:200% 50%}}
+  @keyframes rotatePlanet{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+  @keyframes haloPulse{0%,100%{opacity:.22; transform:scale(1)}50%{opacity:.48; transform:scale(1.05)}}
+  .wow{animation:fadeUp .7s ease both}
+  .wow-l{animation:slideL .8s ease both}
+  .wow-r{animation:slideR .8s ease both}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
+
+  /* Header sticky : logo centré, boutons g/d, “Passport” sous logo */
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    backdrop-filter:saturate(160%) blur(10px);
+    background:linear-gradient(180deg,#fff,#fffef8);
+    border-bottom:1px solid rgba(0,0,0,.06);
+  }
+  .header-inner{
+    max-width:var(--maxw); margin:0 auto; padding:10px 18px 8px;
+    position:relative; display:flex; align-items:center; justify-content:center;
+    min-height:92px;
+  }
+  .header-btn-left, .header-btn-right{ position:absolute; top:50%; transform:translateY(-50%); }
+  .header-btn-left{ left:18px; }
+  .header-btn-right{ right:18px; }
+  .brand{
+    display:flex; align-items:center; justify-content:center; gap:10px; flex-direction:column;
+  }
+  .brand img{height:58px; object-fit:contain}
+  .brand small{
+    font-weight:300; letter-spacing:.32em; text-transform:uppercase; font-size:12px; color:#2a2a2a;
+  }
+  .btn{
+    border:2px solid var(--gold); color:#222;
+    padding:9px 16px; border-radius:999px; font-weight:700; letter-spacing:.2px; background:#fff;
+    transition:transform .08s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
+  }
+  .btn:hover{transform:translateY(-1px); background:#fffaf0}
+  .btn-primary{background:var(--gold); color:#0b0b0c; border-color:var(--gold); box-shadow:0 10px 24px rgba(212,175,55,.25)}
+  .btn-primary:hover{background:var(--gold-700); border-color:var(--gold-700); color:white}
+  .gold-divider{height:2px; background:linear-gradient(90deg,transparent,rgba(212,175,55,1),transparent); background-size:200% 100%; animation:shimmer 6s linear infinite; opacity:.5}
+
+  /* Layout spacing (compense header sticky) */
+  .spacer{height:110px}
+
+  /* Grilles & cartes */
+  .section{max-width:var(--maxw); margin:26px auto; padding:0 18px}
+  .card{
+    background:rgba(255,255,255,.78);
+    border:1px solid rgba(0,0,0,.06); border-radius:var(--radius); box-shadow:var(--shadow); padding:26px;
+    backdrop-filter:blur(14px);
+  }
+  .muted{color:var(--muted)}
+  .gold-line{height:2px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.9),transparent);background-size:200% 100%;animation:shimmer 7s linear infinite;opacity:.5;margin:14px 0}
+
+  /* HERO PASSEPORT (image1) — section priorité */
+  .passport{
+    display:grid; grid-template-columns:1.05fr 1fr; gap:26px; align-items:center;
+  }
+  @media (max-width:1060px){.passport{grid-template-columns:1fr}}
+  .passport h1{margin:0 0 8px; font-size:clamp(28px,3.4vw,40px)}
+  .passport .lead{font-size:18px; color:#2a2a2a}
+  .visual-wrap{
+    width:100%; border-radius:22px; padding:14px;
+    background:linear-gradient(135deg, rgba(212,175,55,.10), rgba(255,255,255,1));
+    border:1px solid rgba(212,175,55,.24); box-shadow:var(--shadow-2); overflow:hidden; transition:transform .6s ease;
+  }
+  .visual-wrap:hover{transform:translateY(-2px)}
+  .tilt img{
+    width:100%; border-radius:16px; background:#fff;
+    border:1px solid rgba(0,0,0,.06);
+    transform:perspective(1100px) rotateY(-10deg) rotateX(2deg);
+    transform-origin:center right; transition:transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .4s ease;
+    box-shadow:0 22px 44px rgba(0,0,0,.10);
+  }
+  .tilt:hover img{transform:perspective(1100px) rotateY(-3deg) rotateX(0deg)}
+
+  /* ETABLISSEMENTS (image3 bottom-left) — seconde section */
+  .labellises{
+    display:grid; grid-template-columns:1fr 1.08fr; gap:22px; align-items:end;
+  }
+  @media (max-width:1060px){.labellises{grid-template-columns:1fr}}
+  .img-bottom-left{ align-self:end; display:grid; place-items:start; }
+  .frame{
+    position:relative; border-radius:18px; overflow:hidden;
+    border:1px solid rgba(212,175,55,.24); background:#fff; box-shadow:var(--shadow);
+  }
+  .frame img{display:block}
+  .frame::after{
+    content:""; position:absolute; inset:auto 0 0 0; height:36px;
+    background:linear-gradient(180deg, transparent, rgba(212,175,55,.10), rgba(212,175,55,.18));
+    pointer-events:none;
+  }
+
+  /* PLANÈTE CENTRALE (image2.png) — inchangée, case + textes glissants */
+  .planet-section{ margin:26px auto; padding:0 18px; }
+  .planet-card{
+    max-width:var(--maxw); margin:0 auto; padding:20px;
+    background:linear-gradient(180deg, #ffffff, #fffdf4);
+    border:1px solid rgba(0,0,0,.06); border-radius:24px; box-shadow:var(--shadow);
+  }
+  .planet-grid{
+    display:grid; grid-template-columns:1fr minmax(320px, 380px) 1fr; gap:18px; align-items:center;
+  }
+  @media (max-width:1100px){.planet-grid{grid-template-columns:1fr; gap:14px}}
+  .planet-copy h3{margin:0 0 8px; font-size:clamp(20px,2.2vw,24px)}
+  .planet-copy p{margin:0 0 8px}
+  .planet-center{ position:relative; display:grid; place-items:center; padding:12px; }
+  .planet-core{
+    position:relative; width:min(380px, 74vw); height:min(380px, 74vw); border-radius:999px;
+    background:url('image2.png') center/cover no-repeat;
+    box-shadow:0 18px 50px rgba(212,175,55,.28), inset 0 0 90px rgba(255,255,255,.25);
+    animation:rotatePlanet 24s linear infinite;
+  }
+  .planet-core::before{
+    content:""; position:absolute; inset:-6%; border-radius:999px;
+    background:radial-gradient(closest-side, rgba(212,175,55,.22), rgba(212,175,55,.08), transparent 70%);
+    filter:blur(8px); animation:haloPulse 4.8s ease-in-out infinite; pointer-events:none;
+  }
+
+  /* CTA container */
+  .cta-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px}
+  .inline-gold{
+    display:inline-block; padding:2px 10px; border-radius:999px; font-weight:800; color:#222;
+    background:linear-gradient(110deg, rgba(212,175,55,.18), #fff, rgba(212,175,55,.18));
+    background-size:200% 100%; animation:shimmer 6s linear infinite; border:1px solid rgba(212,175,55,.28);
+  }
+
+  /* Footer */
+  footer{max-width:var(--maxw); margin:48px auto 80px; padding:0 18px; color:#5a512e; border-top:1px solid rgba(0,0,0,.08)}
+  footer .links{display:flex; flex-wrap:wrap; gap:16px; margin-top:10px}
+  footer a{color:#1f1f1f; font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- Header sticky -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <div class="header-btn-left">
+      <a class="btn btn-primary" href="inscription.html" title="Créer un compte">Inscription</a>
+    </div>
+
+    <a class="brand" href="./index.html" aria-label="AllergoZyme Passport — Accueil">
+      <img src="logo.png" alt="AllergoZyme (logo doré, fond transparent)" />
+      <small>Passport</small>
+    </a>
+
+    <div class="header-btn-right">
+      <a class="btn" href="identification.html" title="Se connecter">Identification</a>
+    </div>
+  </div>
+  <div class="gold-divider" aria-hidden="true"></div>
+</header>
+
+<div class="spacer" aria-hidden="true"></div>
+
+<main>
+  <!-- SECTION 1 — PASSEPORT (image1 en visuel) -->
+  <section class="section">
+    <div class="card passport wow">
+      <div>
+        <h1>Le passeport allergies qui fixe une nouvelle norme</h1>
+        <p class="lead">
+          Centralisez vos informations (allergènes, intolérances, diabète), affichez-les instantanément via QR et
+          conservez des <em>preuves exploitables</em> en cas de litige. Simple pour vous, rassurant pour les établissements —
+          la sécurité devient un réflexe.
+        </p>
+        <div class="gold-line" aria-hidden="true"></div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="inscription.html">Créer mon compte</a>
+          <a class="btn" href="identification.html">J’ai déjà un compte</a>
+          <a class="btn" href="10euro.html" title="Parrainage 10 € — Aller à la page">Gagner 10 € par établissement</a>
+          <a class="btn" href="https://www.allergozymeprotect.com" target="_blank" rel="noopener" title="Voir le site Protect">Voir AllergoZyme Protect</a>
+        </div>
+        <p class="muted" style="margin-top:8px">Astuce : utilisez le même e-mail que votre PayPal pour recevoir vos 10 € / établissement validé.</p>
+      </div>
+
+      <div class="visual-wrap tilt wow-r" aria-hidden="true">
+        <img src="image1.png" alt="Aperçu du passeport AllergoZyme sur smartphone" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — ÉTABLISSEMENTS (image3 en bas/gauche) -->
+  <section class="section">
+    <div class="card labellises wow">
+      <div class="img-bottom-left">
+        <div class="frame tilt">
+          <img src="image3.png" alt="Façade d’établissement labellisé AllergoZyme" />
+        </div>
+      </div>
+      <div>
+        <h2>Les établissements labellisés, visibles et vérifiables</h2>
+        <p class="muted">Retrouvez-les sur la carte officielle et vérifiez leur statut en un instant.</p>
+        <p>
+          <a class="btn" href="https://www.allergozymelabel.com" target="_blank" rel="noopener">Voir la carte — allergozymelabel.com</a>
+        </p>
+        <ul>
+          <li>Affichage d’un QR officiel en salle (contrôle rapide par les clients).</li>
+          <li>Informations d’allergènes <strong>accessibles</strong>, <strong>lisibles</strong> et <strong>traçables</strong>.</li>
+          <li>Confiance renforcée : une démarche claire, professionnelle et vérifiable.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — PLANÈTE AU CENTRE (identique) -->
+  <section class="section planet-section">
+    <div class="planet-card">
+      <div class="planet-grid">
+        <div class="planet-copy wow-l">
+          <h3>Un standard clair pour tous</h3>
+          <p>Un langage commun entre clients et établissements : information lisible, responsabilité partagée, <strong>preuve</strong> opposable si nécessaire.</p>
+          <p>Restaurant, snack, boulangerie, traiteur, chef privé — chacun peut devenir réellement sûr.</p>
+        </div>
+
+        <div class="planet-center">
+          <div class="planet-core" aria-hidden="true"></div>
+        </div>
+
+        <div class="planet-copy wow-r">
+          <h3>Conforme & protecteur</h3>
+          <p><strong>RGPD</strong> by-design (minimisation, finalité, traçabilité). Données hébergées en <strong>Europe</strong>. Accès authentifié.</p>
+          <p>En cas de problème : horodatage, consentements, historique — un dossier prêt à l’usage pour résoudre rapidement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div>© <span id="year"></span> AllergoZyme. Tous droits réservés.</div>
+  <div class="links" style="margin-top:8px">
+    <a href="#" title="Conditions Générales de Vente">CGV</a>
+    <a href="mailto:contact@allergozyme.com" title="Nous écrire">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Année auto
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Reveal on scroll
+  const reveal = () => {
+    const els = document.querySelectorAll('.wow, .wow-l, .wow-r');
+    const vh = window.innerHeight || 800;
+    els.forEach(el=>{
+      const rect = el.getBoundingClientRect();
+      if(rect.top < vh * 0.9){ el.style.visibility='visible'; el.style.animationPlayState='running'; }
+    });
+  };
+  document.querySelectorAll('.wow, .wow-l, .wow-r').forEach(el=>{
+    el.style.visibility='hidden'; el.style.animationPlayState='paused';
+  });
+  reveal();
+  window.addEventListener('scroll', reveal, {passive:true});
+
+  // Tilt doux sur les cadres .tilt
+  document.querySelectorAll('.tilt').forEach(wrap=>{
+    const img = wrap.querySelector('img');
+    if(!img) return;
+    wrap.addEventListener('mousemove', (e)=>{
+      const r = wrap.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      img.style.transform =
+        `perspective(1100px) rotateY(${(-6 + x*12).toFixed(2)}deg) rotateX(${(1 - y*8).toFixed(2)}deg)`;
+    });
+    wrap.addEventListener('mouseleave', ()=>{
+      img.style.transform = 'perspective(1100px) rotateY(-6deg) rotateX(1deg)';
+    });
+    // pose initiale
+    img.style.transform = 'perspective(1100px) rotateY(-6deg) rotateX(1deg)';
+  });
+
+  // Parallax délicat du background (léger, non agressif)
+  const parallax = () => {
+    const y = window.scrollY || window.pageYOffset;
+    // translate le voile de fond pour une sensation de profondeur légère
+    document.body.style.backgroundPositionY = `${-y * 0.15}px`;
+  };
+  window.addEventListener('scroll', parallax, {passive:true});
+</script>
+</body>
+</html>

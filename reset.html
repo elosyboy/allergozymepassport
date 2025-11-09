@@ -4,91 +4,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Réinitialisation du mot de passe — AllergoZyme Passport</title>
+  <link rel="icon" href="logo.png" />
   <style>
-    body {
-      margin: 0;
-      background: linear-gradient(180deg, #fffdf7, #fef7e1);
-      font-family: 'Poppins', sans-serif;
-      color: #4a3a0a;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+    :root{
+      --gold:#d4af37;
+      --gold-dark:#b4912e;
     }
-    .card {
-      background: white;
-      border-radius: 22px;
-      border: 1px solid rgba(212,175,55,0.3);
-      padding: 45px 35px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      max-width: 460px;
-      animation: fadeIn 0.7s ease;
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;color:#fff;}
+    body{
+      min-height:100vh;
+      background:#000;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:40px 20px;
+      position:relative;
+      overflow:hidden;
+      text-align:center;
     }
-    img {
-      width: 90px;
-      margin-bottom: 20px;
+
+    body::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+      linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px) 0 0/22px 22px,
+      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px) 0 0/22px 22px;
+      opacity:.45;
+      pointer-events:none;
     }
-    h1 {
-      color: #b4912e;
-      font-size: 24px;
-      margin-bottom: 12px;
+    body::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:url('noise.png');
+      mix-blend-mode:overlay;
+      opacity:.12;
+      pointer-events:none;
     }
-    p {
-      color: #6e5b1b;
-      font-size: 15px;
-      margin-bottom: 25px;
+
+    header{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:25px 0 38px;
+      z-index:2;
     }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(212,175,55,0.4);
-      margin-bottom: 20px;
-      font-size: 15px;
-      outline: none;
-      text-align: center;
-      transition: all 0.25s ease;
+    header img{
+      width:68px;
+      filter:drop-shadow(0 0 12px rgba(212,175,55,.55));
     }
-    input:focus {
-      border-color: #b4912e;
-      box-shadow: 0 0 10px rgba(212,175,55,0.3);
+
+    .card{
+      background:rgba(10,10,10,.55);
+      border:1px solid rgba(212,175,55,.35);
+      border-radius:22px;
+      padding:45px 35px;
+      width:100%;
+      max-width:480px;
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 30px rgba(212,175,55,.08);
+      animation:fade .6s ease;
+      z-index:2;
     }
-    button {
-      background: linear-gradient(135deg, #d4af37, #b4912e);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 999px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
+    @keyframes fade{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+
+    h1{
+      font-size:24px;
+      font-weight:700;
+      margin-bottom:14px;
+      color:var(--gold);
+      text-shadow:0 0 8px rgba(212,175,55,.35);
     }
-    button:hover {
-      background: linear-gradient(135deg, #b4912e, #d4af37);
-      transform: translateY(-2px);
+    p{
+      font-size:15px;
+      opacity:.85;
+      margin-bottom:28px;
+      line-height:1.4;
     }
-    .success {
-      color: #b4912e;
-      font-weight: 600;
-      margin-top: 12px;
+
+    input{
+      width:100%;
+      padding:13px;
+      border-radius:999px;
+      border:1px solid rgba(212,175,55,.35);
+      margin-bottom:22px;
+      background:rgba(0,0,0,.45);
+      text-align:center;
+      font-size:15px;
+      color:var(--gold);
+      outline:none;
+      transition:.25s;
     }
-    footer {
-      margin-top: 40px;
-      font-size: 13px;
-      color: #8c6f1f;
+    input:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 12px rgba(212,175,55,.35);
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    button{
+      background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+      color:#000;
+      border:none;
+      padding:13px 32px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:600;
+      box-shadow:0 0 14px rgba(212,175,55,.35);
+      transition:.25s;
+    }
+    button:hover{
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      transform:translateY(-2px);
+    }
+
+    .success{
+      margin-top:16px;
+      font-weight:600;
+      color:var(--gold);
+      text-shadow:0 0 6px rgba(212,175,55,.4);
+    }
+
+    footer{
+      margin-top:38px;
+      font-size:14px;
+      opacity:.5;
+      z-index:2;
     }
   </style>
 </head>
+
 <body>
+  <header><img src="logo.png" alt="logo"></header>
+
   <div class="card">
-    <img src="logo2.png" alt="AllergoZyme Logo" />
     <h1>Réinitialisez votre mot de passe</h1>
     <p>Choisissez un nouveau mot de passe pour accéder à votre espace AllergoZyme Passport.</p>
     <input type="password" id="newPassword" placeholder="Nouveau mot de passe" />
@@ -108,9 +158,9 @@
 
       const message = document.getElementById("message");
       if (error) {
-        message.textContent = "❌ Erreur : " + error.message;
+        message.textContent = " Erreur : " + error.message;
       } else {
-        message.textContent = "✅ Mot de passe mis à jour avec succès !";
+        message.textContent = " Mot de passe mis à jour avec succès !";
         setTimeout(() => {
           window.location.href = "identification.html";
         }, 3000);
