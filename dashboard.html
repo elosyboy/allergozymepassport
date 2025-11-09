@@ -64,9 +64,9 @@ main{flex:1; width:100%}
 footer{border-top:1px solid var(--line); margin-top:20px; background:var(--black4)}
 .foot{max-width:var(--maxw); margin:0 auto; padding:20px 22px; color:var(--mute); text-align:center}
 
-/* Modal */
+/* Modal (déclaration & ajout visite) */
 .backdrop{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:60; backdrop-filter:blur(3px)}
-.modal{width:min(520px,92vw); background:linear-gradient(180deg,var(--black2),var(--black3)); border:1px solid var(--line); border-radius:18px; padding:20px}
+.modal{width:min(640px,92vw); background:linear-gradient(180deg,var(--black2),var(--black3)); border:1px solid var(--line); border-radius:18px; padding:20px}
 .modal h3{margin:0 0 10px}
 .modal .row{display:grid; gap:8px; margin-bottom:12px}
 .modal input, .modal textarea{
@@ -125,17 +125,17 @@ footer{border-top:1px solid var(--line); margin-top:20px; background:var(--black
       </table>
     </section>
 
-    <!-- Restaurants fréquentés (preuve côté client) -->
+    <!-- Restaurants fréquentés (depuis signatures + join restaurants) -->
     <section class="section">
       <div class="badge">Preuve côté client</div>
       <h2>Mes restaurants fréquentés</h2>
-      <p class="note">Cette liste vous sert de journal horodaté côté client. Elle s’appuie sur la <strong>même table <code>restaurants</code></strong> (option B) via la colonne <code>client_email</code> (ou équivalents).</p>
+      <p class="note">Ce journal est rempli automatiquement par vos signatures. Vous pouvez aussi ajouter une visite manuelle si besoin.</p>
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px">
         <button class="btn" id="btnAddVisit">Ajouter une visite</button>
         <span id="visitsHint" class="note"></span>
       </div>
       <table class="table">
-        <thead><tr><th>Établissement</th><th>Adresse</th><th>Date</th><th>Source</th></tr></thead>
+        <thead><tr><th>Établissement</th><th>Adresse</th><th>Date</th><th></th></tr></thead>
         <tbody id="tbody-visits">
           <tr><td colspan="4" style="text-align:center; color:var(--mute)">Chargement…</td></tr>
         </tbody>
@@ -167,7 +167,19 @@ footer{border-top:1px solid var(--line); margin-top:20px; background:var(--black
   <div class="foot">© <span id="year"></span> AllergoZyme Passport — Données protégées et confidentielles</div>
 </footer>
 
-<!-- Modal Ajouter une visite -->
+<!-- Modal : voir déclaration -->
+<div class="backdrop" id="modalDecl">
+  <div class="modal">
+    <h3 id="declTitle">Déclaration</h3>
+    <div id="declBody" class="note" style="white-space:pre-line"></div>
+    <div class="actions">
+      <button class="btn" id="declDownload">Télécharger en PDF</button>
+      <button class="btn" id="declClose">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal : ajouter visite manuelle -->
 <div class="backdrop" id="modalVisit">
   <div class="modal">
     <h3>Ajouter une visite</h3>
@@ -179,7 +191,7 @@ footer{border-top:1px solid var(--line); margin-top:20px; background:var(--black
       <label for="visitAddr">Adresse (optionnelle)</label>
       <textarea id="visitAddr" rows="2" placeholder="Adresse complète (si souhaité)"></textarea>
     </div>
-    <div class="note">Astuce : la visite sera enregistrée dans <code>restaurants</code> avec <code>client_email = votre email</code>. Vous pouvez ajuster votre schéma plus tard.</div>
+    <div class="note">La visite sera insérée dans <code>restaurants</code> avec <code>client_email = votre email</code>.</div>
     <div id="visitMsg" class="note" style="margin-top:8px"></div>
     <div class="actions">
       <button class="btn" id="visitSave">Enregistrer</button>
@@ -207,15 +219,22 @@ document.getElementById('logoutBtn').onclick = async () => { await sb.auth.signO
 document.getElementById('sellTipsBtn').onclick = () => { window.location.href='vendre.html' }
 document.getElementById('editAllergies').onclick = () => { window.location.href='remplir-allergies.html' }
 
-// modal
-const modal = document.getElementById('modalVisit')
+// modals
+const modalVisit = document.getElementById('modalVisit')
 const visitSave = document.getElementById('visitSave')
 const visitCancel = document.getElementById('visitCancel')
 const visitMsg = document.getElementById('visitMsg')
 const visitName = document.getElementById('visitName')
 const visitAddr = document.getElementById('visitAddr')
-document.getElementById('btnAddVisit').onclick = () => { visitName.value=''; visitAddr.value=''; visitMsg.textContent=''; modal.style.display='flex' }
-visitCancel.onclick = () => { modal.style.display='none' }
+document.getElementById('btnAddVisit').onclick = () => { visitName.value=''; visitAddr.value=''; visitMsg.textContent=''; modalVisit.style.display='flex' }
+visitCancel.onclick = () => { modalVisit.style.display='none' }
+
+const modalDecl = document.getElementById('modalDecl')
+const declTitle = document.getElementById('declTitle')
+const declBody = document.getElementById('declBody')
+const declClose = document.getElementById('declClose')
+const declDownload = document.getElementById('declDownload')
+declClose.onclick = () => { modalDecl.style.display='none' }
 
 // auth gate
 const { data: { user } } = await sb.auth.getUser()
@@ -232,14 +251,18 @@ try{
   userCodeEl.textContent = 'Code non attribué'
 }
 
-// 1) Recommandés via code parrain
+// RECOMMANDATIONS
 async function loadRecommandes(){
   try{
     if(!codePromo){
       tbodyReco.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--mute)">Aucun code personnel trouvé.</td></tr>'
       return
     }
-    const { data: etabs, error } = await sb.from('restaurants').select('etablissement, created_at, paiement').eq('code_parrain', codePromo).order('created_at', { ascending:false })
+    const { data: etabs, error } = await sb
+      .from('restaurants')
+      .select('etablissement, created_at, paiement')
+      .eq('code_parrain', codePromo)
+      .order('created_at', { ascending:false })
     if(error) throw error
     if(!etabs || etabs.length===0){
       tbodyReco.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--mute)">Aucun établissement pour le moment.</td></tr>'
@@ -258,50 +281,122 @@ async function loadRecommandes(){
   }
 }
 
-// 2) Visites côté client — OPTION B (dans restaurants)
-// on tente plusieurs colonnes usuelles : client_email | email_client | user_email
+// VISITES (depuis signatures + join restaurants)
+let lastSignaturesCache = [] // pour le modal
 async function loadVisites(){
   try{
-    // essaie client_email
-    let all = [], source = null, lastError = null
+    // 1. on récupère toutes les signatures de ce client
+    const { data: sigs, error: e1 } = await sb
+      .from('signatures')
+      .select('id, restaurant_id, created_at, allergenes, autres_allergenes, diabete, aucune_allergie, table_ref, consentement, nom_client, emailnumero_client')
+      .eq('emailnumero_client', user.email)
+      .order('created_at', { ascending:false })
+    if(e1) throw e1
 
-    const tries = [
-      { col:'client_email', label:'client_email' },
-      { col:'email_client', label:'email_client' },
-      { col:'user_email',   label:'user_email' }
-    ]
+    lastSignaturesCache = sigs || []
 
-    for (const t of tries){
-      const { data, error } = await sb.from('restaurants').select('etablissement, adresse, created_at').eq(t.col, user.email).order('created_at', { ascending:false })
-      if(error){ lastError = error; continue }
-      if(data && data.length){
-        all = data; source = t.label; break
-      }
-    }
-
-    // si rien trouvé, affiche message pédagogique
-    if(!all.length){
+    if(!sigs || sigs.length === 0){
       tbodyVisits.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--mute)">Aucune visite enregistrée pour le moment.</td></tr>'
-      visitsHint.innerHTML = "Astuce : ajoutez une visite avec le bouton ci-dessus. Si l’enregistrement échoue, créez la colonne <code>client_email</code> (text) dans la table <code>restaurants</code>."
+      visitsHint.innerHTML = "Les visites se remplissent automatiquement quand vous signez dans un restaurant via QR code."
       return
     }
 
-    visitsHint.textContent = source ? ('Source : '+source) : ''
-    tbodyVisits.innerHTML = all.map(v => `
-      <tr>
-        <td>${v.etablissement ?? '—'}</td>
-        <td>${v.adresse ?? '—'}</td>
-        <td>${v.created_at ? new Date(v.created_at).toLocaleString('fr-FR') : '—'}</td>
-        <td>${source || '—'}</td>
-      </tr>
-    `).join('')
+    // 2. on charge les restaurants correspondants
+    const ids = [...new Set(sigs.map(s => s.restaurant_id).filter(Boolean))]
+    let restMap = {}
+    if(ids.length){
+      const { data: restos, error: e2 } = await sb
+        .from('restaurants')
+        .select('id, etablissement, adresse, codepostal, ville')
+        .in('id', ids)
+      if(e2) throw e2
+      restMap = (restos || []).reduce((acc,r)=>{ acc[r.id] = r; return acc }, {})
+    }
+
+    // 3. rendu tableau visites
+    tbodyVisits.innerHTML = sigs.map(s => {
+      const r = restMap[s.restaurant_id] || {}
+      const nom = r.etablissement || '—'
+      const adr = [r.adresse, r.codepostal, r.ville].filter(Boolean).join(', ') || '—'
+      const d   = s.created_at ? new Date(s.created_at).toLocaleString('fr-FR') : '—'
+      return `
+        <tr>
+          <td>${nom}</td>
+          <td>${adr}</td>
+          <td>${d}</td>
+          <td><button class="btn btn-small" data-declid="${s.id}" data-restname="${encodeURIComponent(nom)}">Voir ma déclaration</button></td>
+        </tr>
+      `
+    }).join('')
+
+    // 4. brancher les boutons "Voir ma déclaration"
+    document.querySelectorAll('[data-declid]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-declid')
+        const restname = decodeURIComponent(btn.getAttribute('data-restname'))
+        const decl = lastSignaturesCache.find(x=>x.id===id)
+        if(!decl){ return }
+        const lignes = []
+        lignes.push(`Établissement : ${restname}`)
+        lignes.push(`Date : ${decl.created_at ? new Date(decl.created_at).toLocaleString('fr-FR') : '—'}`)
+        lignes.push(`Table : ${decl.table_ref || '—'}`)
+        lignes.push(`Consentement : ${decl.consentement === false ? 'Non' : 'Oui'}`)
+        lignes.push(`Nom déclaré : ${decl.nom_client || '—'}`)
+        lignes.push(`Email : ${decl.emailnumero_client || '—'}`)
+        lignes.push(`Diabète : ${decl.diabete ? 'Oui' : 'Non'}`)
+        lignes.push(`Aucune allergie : ${decl.aucune_allergie ? 'Oui' : 'Non'}`)
+        lignes.push(`Allergènes : ${decl.allergenes || (decl.aucune_allergie ? '(Aucun)' : '—')}`)
+        lignes.push(`Autres allergènes : ${decl.autres_allergenes || '—'}`)
+        declTitle.textContent = 'Déclaration — ' + restname
+        declBody.textContent = lignes.join('\n')
+        declDownload.onclick = () => downloadDeclPDF(restname, decl)
+        modalDecl.style.display = 'flex'
+      })
+    })
 
   }catch(e){
+    console.error(e)
     tbodyVisits.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#ff8f8f">Erreur de chargement.</td></tr>'
   }
 }
 
-// Insert visite (dans la table restaurants – option B)
+// Téléchargement “PDF” (impression système)
+function downloadDeclPDF(restname, decl){
+  const safe = (v)=> (v==null || v==='') ? '—' : String(v)
+  const dateStr = decl.created_at ? new Date(decl.created_at).toLocaleString('fr-FR') : '—'
+  const html = `
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><title>Déclaration — ${restname}</title>
+<style>
+  body{font-family:Inter,system-ui; padding:24px; color:#111}
+  h1{margin:0 0 12px; font-size:18px}
+  .card{border:1px solid #ddd; border-radius:12px; padding:16px}
+  .row{margin:6px 0}
+  .label{color:#444; font-weight:600}
+  @media print {.btn{display:none}}
+  .btn{margin-top:12px; padding:10px 16px; border:0; border-radius:999px; background:#111; color:#fff; cursor:pointer}
+</style>
+</head><body>
+  <h1>Déclaration Allergies — ${restname}</h1>
+  <div class="card">
+    <div class="row"><span class="label">Date :</span> ${dateStr}</div>
+    <div class="row"><span class="label">Établissement :</span> ${restname}</div>
+    <div class="row"><span class="label">Nom déclaré :</span> ${safe(decl.nom_client)}</div>
+    <div class="row"><span class="label">Email :</span> ${safe(decl.emailnumero_client)}</div>
+    <div class="row"><span class="label">Table :</span> ${safe(decl.table_ref)}</div>
+    <div class="row"><span class="label">Consentement :</span> ${decl.consentement === false ? 'Non' : 'Oui'}</div>
+    <div class="row"><span class="label">Diabète :</span> ${decl.diabete ? 'Oui' : 'Non'}</div>
+    <div class="row"><span class="label">Aucune allergie :</span> ${decl.aucune_allergie ? 'Oui' : 'Non'}</div>
+    <div class="row"><span class="label">Allergènes :</span> ${safe(decl.allergenes)}</div>
+    <div class="row"><span class="label">Autres allergènes :</span> ${safe(decl.autres_allergenes)}</div>
+  </div>
+  <button class="btn" onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+</body></html>`
+  const w = window.open('', '_blank')
+  w.document.open(); w.document.write(html); w.document.close()
+}
+
+// Insert visite manuelle (restaurants)
 visitSave.onclick = async () => {
   visitMsg.className = 'note'
   try{
@@ -309,32 +404,30 @@ visitSave.onclick = async () => {
     const adr = visitAddr.value.trim()
     if(!etab){ visitMsg.className='note error'; visitMsg.textContent='Veuillez renseigner le nom de l’établissement.'; return }
 
-    // on privilégie la colonne client_email
     const payload = {
       etablissement: etab,
       adresse: adr || null,
-      client_email: user.email   // ← si la colonne n’existe pas, Supabase renverra une erreur explicite
-      // created_at : géré par défaut côté DB si DEFAULT now()
+      client_email: user.email // si la colonne n’existe pas, une erreur claire sera renvoyée
     }
-
     const { error } = await sb.from('restaurants').insert([payload])
     if(error){
       visitMsg.className='note error'
-      visitMsg.innerHTML = 'Erreur : '+error.message+'<br><span class="note">Crée la colonne <code>client_email</code> (type TEXT) dans la table <code>restaurants</code> si elle n’existe pas.</span>'
+      visitMsg.innerHTML = 'Erreur : '+error.message+
+        '<br><span class="note">Créez la colonne <code>client_email</code> (TEXT) dans la table <code>restaurants</code> si elle n’existe pas.</span>'
       return
     }
 
     visitMsg.className='note success'
     visitMsg.textContent = 'Visite enregistrée.'
     await loadVisites()
-    setTimeout(()=>{ modal.style.display='none' }, 800)
+    setTimeout(()=>{ modalVisit.style.display='none' }, 700)
   }catch(e){
     visitMsg.className='note error'
     visitMsg.textContent = 'Erreur inconnue.'
   }
 }
 
-// init
+// INIT
 await loadRecommandes()
 await loadVisites()
 </script>
