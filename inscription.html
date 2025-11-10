@@ -31,18 +31,15 @@ body{
 }
 @keyframes drift{to{transform:translate3d(-30px,-20px,0)}}
 
-/* HEADER */
 header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(10,10,10,.6); border-bottom:1px solid var(--line); padding:14px 22px; display:flex; justify-content:space-between; align-items:center}
 .brand{display:flex; align-items:center; gap:12px}
-.brand img{width:40px; height:40px; border-radius:8px; object-fit:contain}
+.brand img{width:40px; height:40px; border-radius:8px;}
 .brand h1{margin:0; font-size:.9rem; letter-spacing:.12em; font-weight:900; text-transform:uppercase; color:#fff}
 .nav-actions a{color:var(--ink); padding:8px 16px; border:1px solid var(--line); border-radius:999px; font-size:.86rem; background:linear-gradient(180deg,var(--black2),var(--black3)); text-decoration:none}
 .nav-actions a:hover{box-shadow:0 6px 24px rgba(182,149,42,.28)}
 
-/* CENTER */
 .main-center{flex:1; display:grid; place-items:center; padding:40px 14px}
 
-/* CARD */
 .card{
   background:linear-gradient(180deg,var(--black2),var(--black3));
   border:1px solid var(--line); border-radius:var(--r); padding:42px 32px; width:100%; max-width:500px;
@@ -57,18 +54,13 @@ label{font-size:.78rem; color:var(--mute); margin-bottom:4px}
 input{width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); background:#0b0b0c; color:var(--ink)}
 input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(182,149,42,.32)}
 
-.checkbox-container{display:flex; gap:10px; background:#0b0b0c; padding:10px; border:1px solid var(--line); border-radius:10px; margin-top:6px}
-.checkbox-container input{width:18px;height:18px;margin-top:2px;accent-color:var(--gold)}
-
 .btn{
   background:linear-gradient(180deg,#b6952a,#9c8024); color:#fff;
   border:none; padding:14px; border-radius:999px; font-weight:700; cursor:pointer
 }
 .btn:hover{box-shadow:0 12px 36px rgba(182,149,42,.35)}
 
-.success,.error{display:none;text-align:center;font-size:.85rem;margin-top:10px;padding:10px;border-radius:8px}
-.success{color:#2e7d32; background:rgba(46,125,50,.15)}
-.error{color:#bc4a4a;background:rgba(188,74,74,.15)}
+.error{display:none;text-align:center;font-size:.85rem;margin-top:14px;padding:10px;border-radius:8px;color:#bc4a4a;background:rgba(188,74,74,.15)}
 
 footer{text-align:center;color:var(--mute);font-size:.75rem;padding:22px}
 </style>
@@ -94,12 +86,9 @@ footer{text-align:center;color:var(--mute);font-size:.75rem;padding:22px}
     <img src="logo.png" alt="AllergoZyme Logo"/>
     <h1>Créer un compte</h1>
     <p class="subtitle">
-      Rejoignez la communauté <strong>AllergoZyme Passport</strong> et protégez-vous en toute sérénité.<br>
-      Gagnez <strong>10 €</strong> par établissement que vous recommandez.
+      Un email de confirmation sera envoyé pour activer le compte.
     </p>
 
-    <!-- TON FORMULAIRE EXACT -->
-    <!-- aucune ligne modifiée -->
     <form id="signupForm">
       <label>Nom</label>
       <input type="text" id="nom" required />
@@ -128,83 +117,68 @@ footer{text-align:center;color:var(--mute);font-size:.75rem;padding:22px}
       <label>Pays</label>
       <input type="text" id="pays" required />
 
-      <div class="checkbox-container">
-        <input type="checkbox" id="consent" required />
-        <label for="consent">
-          J’accepte que mes données soient enregistrées et protégées conformément à la politique de confidentialité d’AllergoZyme.
-        </label>
-      </div>
-
       <button type="submit" class="btn">S'inscrire</button>
-
-      <div class="success" id="msgSuccess"></div>
       <div class="error" id="msgError"></div>
     </form>
   </div>
 </div>
 
-<footer>© <span id="year"></span> AllergoZyme Passport — Données sécurisées et protégées</footer>
+<footer>© <span id="year"></span> AllergoZyme Passport</footer>
 
 <script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-  const SUPABASE_URL = 'https://tmrraeutjrcsozijjbzm.supabase.co'
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+const supabase = createClient(
+  'https://tmrraeutjrcsozijjbzm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+)
 
-  document.getElementById('year').textContent = new Date().getFullYear()
+document.getElementById('year').textContent = new Date().getFullYear()
 
-  function genererCodeUnique() {
-    const lettres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    const prefixe = lettres[Math.floor(Math.random() * lettres.length)] + lettres[Math.floor(Math.random() * lettres.length)]
-    const chiffres = Math.floor(1000 + Math.random() * 9000)
-    return `${prefixe}-${chiffres}`
+const form = document.getElementById('signupForm')
+const msgError = document.getElementById('msgError')
+
+function genCodePromo(){
+  const L="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  return L[Math.floor(Math.random()*26)]+L[Math.floor(Math.random()*26)]+"-"+Math.floor(1000+Math.random()*9000)
+}
+
+form.addEventListener('submit', async(e)=>{
+  e.preventDefault()
+
+  const nom = nom.value.trim()
+  const prenom = prenom.value.trim()
+  const email = email.value.trim()
+  const password = password.value
+  const telephone = telephone.value.trim()
+  const adresse = adresse.value.trim()
+  const codepostal = codepostal.value.trim()
+  const ville = ville.value.trim()
+  const pays = pays.value.trim()
+  const codePromo = genCodePromo()
+
+  try{
+    const { error: signErr } = await supabase.auth.signUp({
+      email,
+      password,
+      options:{
+        emailRedirectTo:'https://allergozymepassport.com/confirmation.html',
+        data:{ nom,prenom,telephone,adresse,codepostal,ville,pays }
+      }
+    })
+    if(signErr) throw signErr
+
+    await supabase.from('vendeurs').insert([
+      {nom:`${prenom} ${nom}`,email, paypal_email:email,code_promo:codePromo}
+    ])
+
+    window.location.href="valideinscription.html"
+
+  }catch(err){
+    msgError.style.display='block'
+    msgError.textContent="❌ " + err.message
   }
-
-  const form = document.getElementById('signupForm')
-  const msgSuccess = document.getElementById('msgSuccess')
-  const msgError = document.getElementById('msgError')
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    msgSuccess.style.display = 'none'
-    msgError.style.display = 'none'
-
-    const nom = document.getElementById('nom').value.trim()
-    const prenom = document.getElementById('prenom').value.trim()
-    const email = document.getElementById('email').value.trim()
-    const password = document.getElementById('password').value
-    const telephone = document.getElementById('telephone').value.trim()
-    const adresse = document.getElementById('adresse').value.trim()
-    const codepostal = document.getElementById('codepostal').value.trim()
-    const ville = document.getElementById('ville').value.trim()
-    const pays = document.getElementById('pays').value.trim()
-    const codePromo = genererCodeUnique()
-
-    try {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: window.location.origin + '/confirmation.html',
-          data: { nom, prenom, telephone, adresse, codepostal, ville, pays, codePromo }
-        }
-      })
-
-      if (signUpError) throw signUpError
-
-      await supabase
-        .from('vendeurs')
-        .insert([{ nom: `${prenom} ${nom}`, email, paypal_email: email, code_promo: codePromo }])
-
-      window.location.href = 'valideinscription.html'
-
-    } catch (err) {
-      console.error('Erreur:', err)
-      msgError.textContent = '❌ ' + (err.message || 'Une erreur est survenue. Réessayez plus tard.')
-      msgError.style.display = 'block'
-    }
-  })
+})
 </script>
 
 </body>
