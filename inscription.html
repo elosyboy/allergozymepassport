@@ -18,7 +18,6 @@ body{
   margin:0; background:var(--black); color:var(--ink);
   display:flex; flex-direction:column; min-height:100vh;
 }
-
 .gridbg{position:fixed; inset:-20vh -20vw; z-index:0;
   background:
     radial-gradient(800px 400px at 50% -10%, rgba(183,149,42,.08), transparent 60%),
@@ -124,18 +123,23 @@ form.addEventListener("submit", async e=>{
  const password=document.getElementById("password").value.trim()
 
  const codePromo = code()
+ const fullName = prenom+" "+nom
 
- const { error } = await supabase.auth.signUp({
+ const { error:signupError, data } = await supabase.auth.signUp({
   email,password,
-  options:{emailRedirectTo:"https://allergozymepassport.com/confirmation.html",
-  data:{nom,prenom}}
+  options:{data:{nom:fullName}}
  })
 
- if(error){err.textContent="❌ "+error.message;err.style.display="block";return}
+ if(signupError){err.textContent="❌ "+signupError.message;err.style.display="block";return}
 
- await supabase.from("vendeurs").insert([{nom:`${prenom} ${nom}`,email,paypal_email:email,code_promo:codePromo,created_at:new Date().toISOString()}])
+ await supabase.from("vendeurs").insert([{nom:fullName,email,paypal_email:email,code_promo:codePromo,created_at:new Date().toISOString()}])
 
- window.location.href="valideinscription.html"
+// auto login
+await supabase.auth.signInWithPassword({ email, password })
+
+// redirect final
+window.location.href="dashboard.html"
+
 })
 </script>
 

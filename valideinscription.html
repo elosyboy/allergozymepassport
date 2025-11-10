@@ -1,149 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inscription réussie — AllergoZyme Passport</title>
-  <link rel="icon" href="logo.png" />
-  <style>
-    :root{
-      --gold:#d4af37;
-      --gold-dark:#b4912e;
-    }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;color:#fff;}
-    body{
-      min-height:100vh;
-      background:#000;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      padding:40px 20px;
-      position:relative;
-      overflow:hidden;
-      text-align:center;
-    }
-    body::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-      linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px) 0 0/22px 22px,
-      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px) 0 0/22px 22px;
-      opacity:.45;
-      pointer-events:none;
-    }
-    body::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:url('noise.png');
-      mix-blend-mode:overlay;
-      opacity:.12;
-      pointer-events:none;
-    }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Inscription réussie — AllergoZyme Passport</title>
+<link rel="icon" href="logo.png"/>
 
-    header{
-      width:100%;
-      display:flex;
-      justify-content:center;
-      padding:25px 0 38px;
-      z-index:2;
-    }
-    header img{
-      width:68px;
-      filter:drop-shadow(0 0 12px rgba(212,175,55,.55));
-    }
+<style>
+:root{
+  --black:#0a0a0a; --black2:#0d0d0e; --black3:#131316; --black4:#0b0b0c;
+  --ink:#e7e7ea; --mute:#a8a8b6; --gold:#b6952a; --line:#202024;
+  --r:22px;
+}
+*{box-sizing:border-box; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
 
-    .card{
-      background:rgba(10,10,10,.55);
-      border:1px solid rgba(212,175,55,.35);
-      border-radius:22px;
-      padding:50px 35px;
-      width:100%;
-      max-width:500px;
-      backdrop-filter:blur(10px);
-      box-shadow:0 0 30px rgba(212,175,55,.08);
-      animation:fade .6s ease;
-      z-index:2;
-    }
-    @keyframes fade{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+body{
+  margin:0; background:var(--black); color:var(--ink);
+  display:flex; flex-direction:column; min-height:100vh;
+}
+.gridbg{position:fixed; inset:-20vh -20vw; z-index:0;
+  background:
+    radial-gradient(800px 400px at 50% -10%, rgba(183,149,42,.08), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 80px);
+  mask-image: radial-gradient(80% 60% at 50% 40%, black, transparent);
+  animation: drift 60s linear infinite;
+}
+.noise{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.28; mix-blend-mode:soft-light;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0 .05 .12 .05 0 0"/></feComponentTransfer></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+}
+@keyframes drift{to{transform:translate3d(-30px,-20px,0)}}
 
-    img{
-      width:90px;
-      margin-bottom:15px;
-      filter:drop-shadow(0 0 12px rgba(212,175,55,.45));
-    }
-    h1{
-      font-size:26px;
-      color:var(--gold);
-      margin-bottom:12px;
-      text-shadow:0 0 8px rgba(212,175,55,.35);
-    }
-    p{
-      font-size:15px;
-      opacity:.85;
-      line-height:1.55;
-      margin-bottom:25px;
-    }
+header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(10,10,10,.6); border-bottom:1px solid var(--line); padding:14px 22px; display:flex; justify-content:center; align-items:center}
+header img{width:44px; filter:drop-shadow(0 0 12px rgba(182,149,42,.48))}
 
-    .info-box{
-      background:rgba(212,175,55,.08);
-      border:1px solid rgba(212,175,55,.22);
-      border-radius:10px;
-      padding:14px;
-      margin:20px 0;
-      font-size:14px;
-      line-height:1.45;
-      color:var(--gold-dark);
-    }
+.main-center{flex:1; display:grid; place-items:center; padding:40px 14px}
 
-    a.btn{
-      display:inline-block;
-      padding:13px 30px;
-      border-radius:999px;
-      background:linear-gradient(135deg,var(--gold),var(--gold-dark));
-      color:#000;
-      font-weight:600;
-      text-decoration:none;
-      box-shadow:0 0 14px rgba(212,175,55,.35);
-      transition:.25s ease;
-    }
-    a.btn:hover{
-      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
-      transform:translateY(-2px);
-    }
+.card{
+  background:linear-gradient(180deg,var(--black2),var(--black3));
+  border:1px solid var(--line); border-radius:var(--r); padding:42px 34px; width:100%; max-width:420px;
+  box-shadow:0 22px 68px rgba(182,149,42,.18); text-align:center; position:relative; z-index:2
+}
+.card img{width:80px; margin-bottom:14px}
+h1{margin:0 0 14px; font-size:1.4rem; color:var(--gold)}
+p{font-size:.9rem; color:var(--mute); line-height:1.5; margin-bottom:22px}
 
-    footer{
-      margin-top:40px;
-      font-size:14px;
-      opacity:.5;
-      z-index:2;
-    }
-  </style>
+.btn{
+  display:inline-block; padding:14px 32px; border-radius:999px; text-decoration:none; font-weight:700;
+  background:linear-gradient(180deg,#b6952a,#9c8024); color:#fff;
+}
+.btn:hover{box-shadow:0 12px 36px rgba(182,149,42,.35)}
+
+footer{text-align:center;color:var(--mute);font-size:.75rem;padding:22px}
+</style>
 </head>
 
 <body>
-  <header><img src="logo.png" alt="logo"></header>
 
+<div class="gridbg"></div>
+<div class="noise"></div>
+
+<header>
+  <img src="logo.png" alt="logo"/>
+</header>
+
+<div class="main-center">
   <div class="card">
-    <img src="logo.png" alt="AllergoZyme Logo" />
-    <h1>Inscription réussie </h1>
-    <p>
-      Merci d’avoir rejoint <strong>AllergoZyme Passport</strong>.<br><br>
-      Un e-mail de confirmation vient de vous être envoyé.<br>
-      Pour activer votre compte, veuillez cliquer sur le lien dans ce message.
-    </p>
+    <img src="logo.png" alt="AllergoZyme Logo"/>
+    <h1>Inscription enregistrée</h1>
+    <p>Un e-mail de confirmation vient d’être envoyé.<br>Veuillez confirmer votre adresse avant connexion.</p>
 
-    <div class="info-box">
-       <strong>Astuce :</strong> Si vous ne trouvez pas l’e-mail, vérifiez vos spams ou l’onglet “Promotions”.
-    </div>
-
-    <a href="identification.html" class="btn">J’ai confirmé, me connecter</a>
+    <a href="identification.html" class="btn">J’ai confirmé — me connecter</a>
   </div>
+</div>
 
-  <footer>© <span id="year"></span> AllergoZyme Passport — Données confidentielles et protégées.</footer>
-
-  <script>document.getElementById("year").textContent=new Date().getFullYear()</script>
+<footer>© <span id="year"></span> AllergoZyme Passport</footer>
+<script>document.getElementById("year").textContent=new Date().getFullYear()</script>
 </body>
 </html>
