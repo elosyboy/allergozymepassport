@@ -6,69 +6,61 @@
   <title>AllergoZyme Passport — Ma fiche allergènes</title>
   <link rel="icon" href="logo.png" />
   <style>
-    :root{
-      --black:#0a0a0a; --black2:#0d0d0e; --black3:#131316; --black4:#0b0b0c;
-      --ink:#e7e7ea; --mute:#a8a8b6; --gold:#b6952a; --line:#202024;
-      --r:20px; --maxw:780px;
+    :root {
+      --gold:#c9a227; --black:#ffffff; --text:#111; --line:#ddd;
+      --r:22px; --maxw:760px;
     }
-    *{box-sizing:border-box; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-    body{margin:0; background:var(--black); color:var(--ink); min-height:100vh; display:flex; flex-direction:column}
-    .gridbg{position:fixed; inset:-20vh -20vw; z-index:0;
-      background:
-        radial-gradient(800px 400px at 50% -10%, rgba(183,149,40,.08), transparent 60%),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 80px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 80px);
-      mask-image: radial-gradient(80% 60% at 50% 40%, black, transparent);
-      animation:drift 60s linear infinite;
-    }
-    .noise{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.28; mix-blend-mode:soft-light;
-      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0 .05 .12 .05 0 0"/></feComponentTransfer></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
-    }
-    @keyframes drift{to{transform:translate3d(-30px,-20px,0)}}
+    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    body{margin:0;background:var(--black);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
-    header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(10,10,10,.6); border-bottom:1px solid var(--line)}
-    .head{max-width:var(--maxw); margin:0 auto; padding:14px 22px; display:flex; align-items:center; justify-content:space-between}
-    .brand{display:flex; align-items:center; gap:12px}
-    .brand img{width:46px; height:46px; border-radius:12px; object-fit:contain; box-shadow:0 10px 26px rgba(182,149,42,.18)}
-    .brand h1{margin:0; font-size:1.02rem; letter-spacing:.12em; font-weight:900; text-transform:uppercase}
-    .h-actions{display:flex; gap:10px}
-    .btn{display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:999px; border:1px solid var(--line); background:linear-gradient(180deg,var(--black2),var(--black3)); color:#fff; cursor:pointer}
-    .btn:hover{box-shadow:0 10px 28px rgba(182,149,42,.25)}
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(8px);
+      background:rgba(255,255,255,0.8);
+      border-bottom:1px solid var(--line);
+    }
+    .head{max-width:var(--maxw);margin:0 auto;padding:14px 22px;display:flex;justify-content:space-between;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:42px;height:42px;object-fit:contain}
+    .brand h1{margin:0;font-size:1rem;font-weight:900;text-transform:uppercase;color:var(--gold)}
+    .btn{padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#111;color:#fff;cursor:pointer;transition:0.2s}
+    .btn:hover{box-shadow:0 0 14px rgba(201,162,39,.3)}
 
     main{flex:1}
-    .wrap{max-width:var(--maxw); margin:0 auto; padding:28px 22px; position:relative; z-index:1}
-    .card{background:linear-gradient(180deg,var(--black2),var(--black3)); border:1px solid var(--line); border-radius:var(--r); padding:28px 24px; box-shadow:0 22px 68px rgba(182,149,42,.16);}
-    .title{display:flex; align-items:center; gap:12px; margin-bottom:6px}
-    .title img{width:56px; height:56px; border-radius:12px}
-    h2{margin:0; font-size:1.4rem}
-    .desc{color:var(--mute); margin:6px 0 18px}
-    form{display:flex; flex-direction:column; gap:18px}
-    .group{border:1px solid var(--line); border-radius:14px; padding:18px; background:linear-gradient(180deg,#101014,#0b0b0d)}
-    .group h3{margin:0 0 12px; font-size:1.02rem}
-    .row{display:grid; gap:10px}
-    input[type=text], input[type=email]{width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); background:#0b0b0c; color:#fff; font-size:.98rem}
-    input:focus{outline:none; border-color:var(--gold); box-shadow:0 0 0 2px rgba(182,149,42,.28)}
-    .checkbox-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px 16px}
-    label.checkbox{display:flex; align-items:center; gap:8px; color:var(--mute)}
-    input[type=checkbox]{width:18px; height:18px; accent-color:var(--gold)}
-    .actions{display:flex; gap:10px; flex-wrap:wrap}
-    .btn-primary{background:linear-gradient(180deg,#b6952a,#9c8024); border:1px solid #6d5920}
-    .btn-secondary{background:linear-gradient(180deg,#151517,#0f0f12); border:1px solid var(--line)}
-    .msg{font-size:.92rem; display:none; margin-top:4px}
-    .msg.success{color:#8fffac; display:block}
-    .msg.error{color:#ff9a9a; display:block}
-    footer{border-top:1px solid var(--line); margin-top:22px; background:var(--black4)}
-    .foot{max-width:var(--maxw); margin:0 auto; padding:20px 22px; color:var(--mute); text-align:center; font-size:.92rem}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:40px 22px;position:relative;z-index:1}
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;box-shadow:0 12px 36px rgba(0,0,0,.08)}
+    .title{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .title img{width:56px;height:56px;border-radius:12px}
+    h2{margin:0;font-size:1.4rem;color:#000}
+    .desc{color:#555;margin:4px 0 18px}
+
+    form{display:flex;flex-direction:column;gap:20px}
+    .group{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fafafa}
+    .group h3{margin:0 0 12px;font-size:1.05rem;color:#000}
+    input[type=text],input[type=email]{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;background:#fff;color:#111;font-size:.95rem}
+    input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,162,39,.3)}
+
+    .checkbox-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px 14px}
+    label.checkbox{display:flex;align-items:center;gap:8px;color:#333;font-size:.95rem;cursor:pointer}
+    input[type=checkbox]{width:18px;height:18px;accent-color:var(--gold);cursor:pointer}
+
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn-primary{background:linear-gradient(180deg,var(--gold),#b6911e);border:none;color:#fff}
+    .btn-secondary{background:#fff;border:1px solid var(--line);color:#111}
+    .btn-primary:hover{box-shadow:0 0 20px rgba(201,162,39,.5)}
+    .msg{font-size:.92rem;margin-top:4px;display:none}
+    .msg.success{color:#0c7a32;display:block}
+    .msg.error{color:#b40000;display:block}
+
+    footer{border-top:1px solid var(--line);background:#fff;margin-top:40px}
+    .foot{max-width:var(--maxw);margin:0 auto;padding:18px 22px;color:#555;text-align:center;font-size:.9rem}
   </style>
 </head>
 <body>
-  <div class="gridbg" aria-hidden="true"></div>
-  <div class="noise" aria-hidden="true"></div>
-
   <header>
     <div class="head">
       <div class="brand"><img src="logo.png"/><h1>AllergoZyme Passport</h1></div>
-      <div class="h-actions"><button class="btn" id="backBtn">Retour</button></div>
+      <button class="btn" id="backBtn">Retour</button>
     </div>
   </header>
 
@@ -77,13 +69,16 @@
       <div class="card">
         <div class="title">
           <img src="logo.png"/>
-          <div><h2>Ma fiche allergènes</h2><div class="desc">Dossier confidentiel stocké sous protection AllergoZyme</div></div>
+          <div>
+            <h2>Ma fiche allergènes</h2>
+            <div class="desc">Dossier confidentiel protégé par AllergoZyme</div>
+          </div>
         </div>
 
         <form id="allergyForm">
           <div class="group">
             <h3>Informations personnelles</h3>
-            <div class="row">
+            <div style="display:grid;gap:10px">
               <input type="text" id="nom" placeholder="Votre nom complet" required />
               <input type="email" id="contact" placeholder="Email" required />
             </div>
@@ -92,23 +87,21 @@
           <div class="group">
             <h3>Les 14 allergènes majeurs</h3>
             <div class="checkbox-grid" id="allergenGrid">
-              <label class="checkbox"><input type="checkbox" value="Gluten" />Gluten</label>
-              <label class="checkbox"><input type="checkbox" value="Crustacés" />Crustacés</label>
-              <label class="checkbox"><input type="checkbox" value="Œufs" />Œufs</label>
-              <label class="checkbox"><input type="checkbox" value="Poissons" />Poissons</label>
-              <label class="checkbox"><input type="checkbox" value="Arachides" />Arachides</label>
-              <label class="checkbox"><input type="checkbox" value="Soja" />Soja</label>
-              <label class="checkbox"><input type="checkbox" value="Lait" />Lait</label>
-              <label class="checkbox"><input type="checkbox" value="Fruits à coque" />Fruits à coque</label>
-              <label class="checkbox"><input type="checkbox" value="Céleri" />Céleri</label>
-              <label class="checkbox"><input type="checkbox" value="Moutarde" />Moutarde</label>
-              <label class="checkbox"><input type="checkbox" value="Sésame" />Sésame</label>
-              <label class="checkbox"><input type="checkbox" value="Anhydride sulfureux" />Anhydride sulfureux / sulfites</label>
-              <label class="checkbox"><input type="checkbox" value="Lupin" />Lupin</label>
-              <label class="checkbox"><input type="checkbox" value="Mollusques" />Mollusques</label>
-
-              <!-- NO ALLERGY -->
-              <label class="checkbox"><input type="checkbox" id="noAllergy" value="NOALL" />Je n’ai pas d’allergie</label>
+              <label class="checkbox"><input type="checkbox" value="Gluten">Gluten</label>
+              <label class="checkbox"><input type="checkbox" value="Crustacés">Crustacés</label>
+              <label class="checkbox"><input type="checkbox" value="Œufs">Œufs</label>
+              <label class="checkbox"><input type="checkbox" value="Poissons">Poissons</label>
+              <label class="checkbox"><input type="checkbox" value="Arachides">Arachides</label>
+              <label class="checkbox"><input type="checkbox" value="Soja">Soja</label>
+              <label class="checkbox"><input type="checkbox" value="Lait">Lait</label>
+              <label class="checkbox"><input type="checkbox" value="Fruits à coque">Fruits à coque</label>
+              <label class="checkbox"><input type="checkbox" value="Céleri">Céleri</label>
+              <label class="checkbox"><input type="checkbox" value="Moutarde">Moutarde</label>
+              <label class="checkbox"><input type="checkbox" value="Sésame">Sésame</label>
+              <label class="checkbox"><input type="checkbox" value="Anhydride sulfureux">Anhydride sulfureux / sulfites</label>
+              <label class="checkbox"><input type="checkbox" value="Lupin">Lupin</label>
+              <label class="checkbox"><input type="checkbox" value="Mollusques">Mollusques</label>
+              <label class="checkbox"><input type="checkbox" id="noAllergy" value="NOALL">Je n’ai pas d’allergie</label>
             </div>
           </div>
 
@@ -119,7 +112,7 @@
 
           <div class="group">
             <h3>Diabète</h3>
-            <label class="checkbox"><input type="checkbox" id="diabete" />Je suis diabétique</label>
+            <label class="checkbox"><input type="checkbox" id="diabete">Je suis diabétique</label>
           </div>
 
           <div class="actions">
@@ -138,70 +131,73 @@
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-    const supabase = createClient('https://tmrraeutjrcsozijjbzm.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g')
+
+    const supabase = createClient(
+      'https://tmrraeutjrcsozijjbzm.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtcnJhZXV0anJjc296aWpqYnptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4MDA4NzIsImV4cCI6MjA3NjM3Njg3Mn0.015qUFsUyndsesz5RHGKWO1Ipoz7C3vcVZulACGmq0g'
+    )
 
     document.getElementById('year').textContent = new Date().getFullYear()
-    const goDash=()=>location.href='dashboard.html'
-    backBtn.addEventListener('click',goDash)
-    backBtn2.addEventListener('click',goDash)
+    const goDash = () => location.href = 'dashboard.html'
+    backBtn.addEventListener('click', goDash)
+    backBtn2.addEventListener('click', goDash)
 
-    const form=document.getElementById('allergyForm')
-    const msgSuccess=document.getElementById('msgSuccess')
-    const msgError=document.getElementById('msgError')
-    const emailInput=document.getElementById('contact')
-    const noAll=document.getElementById('noAllergy')
+    const form = document.getElementById('allergyForm')
+    const msgSuccess = document.getElementById('msgSuccess')
+    const msgError = document.getElementById('msgError')
+    const emailInput = document.getElementById('contact')
+    const noAll = document.getElementById('noAllergy')
 
-    // auth
-    const {data:{user}}=await supabase.auth.getUser()
-    if(!user)location.href='identification.html'
-    emailInput.value=user.email; emailInput.readOnly=true
+    // Auth Supabase
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) location.href = 'identification.html'
+    emailInput.value = user.email
+    emailInput.readOnly = true
 
-    // charge existant
-    try{
-      const {data:fiche}=await supabase.from('passports').select('*').eq('contact',user.email).single()
-      if(fiche){
-        nom.value=fiche.nom??''
-        autre.value=fiche.autres_allergenes??''
-        diabete.checked=!!fiche.diabete
-        const list=fiche.allergenes?fiche.allergenes.split(',').map(a=>a.trim()):[]
-        document.querySelectorAll('#allergenGrid input[type=checkbox]').forEach(cb=>{
-          if(list.includes(cb.value))cb.checked=true
+    // Charger existant
+    try {
+      const { data: fiche } = await supabase.from('passports').select('*').eq('contact', user.email).single()
+      if (fiche) {
+        nom.value = fiche.nom ?? ''
+        autre.value = fiche.autres_allergenes ?? ''
+        diabete.checked = !!fiche.diabete
+        const list = fiche.allergenes ? fiche.allergenes.split(',').map(a => a.trim()) : []
+        document.querySelectorAll('#allergenGrid input[type=checkbox]').forEach(cb => {
+          if (list.includes(cb.value)) cb.checked = true
         })
-        if(list.length===0){noAll.checked=true;toggleNoAll(true)}
+        if (list.length === 0) { noAll.checked = true; toggleNoAll(true) }
       }
-    }catch(e){}
+    } catch (e) { }
 
-    // logique strict "no allergy"
-    const allergieBoxes=[...document.querySelectorAll('#allergenGrid input[type=checkbox]')].filter(cb=>cb!==noAll)
-    function toggleNoAll(active){
-      allergieBoxes.forEach(cb=>{cb.checked=false;cb.disabled=active})
+    const allergieBoxes = [...document.querySelectorAll('#allergenGrid input[type=checkbox]')].filter(cb => cb !== noAll)
+    function toggleNoAll(active) {
+      allergieBoxes.forEach(cb => { cb.checked = false; cb.disabled = active })
     }
-    noAll.addEventListener('change',()=>toggleNoAll(noAll.checked))
-
-    allergieBoxes.forEach(cb=>cb.addEventListener('change',()=>{
-      if(cb.checked){noAll.checked=false;toggleNoAll(false)}
+    noAll.addEventListener('change', () => toggleNoAll(noAll.checked))
+    allergieBoxes.forEach(cb => cb.addEventListener('change', () => {
+      if (cb.checked) { noAll.checked = false; toggleNoAll(false) }
     }))
 
-    // save
-    form.addEventListener('submit',async e=>{
+    form.addEventListener('submit', async e => {
       e.preventDefault()
-      msgSuccess.style.display='none';msgError.style.display='none'
-      const nomVal=nom.value.trim()
-      const contactVal=user.email
-      const autreVal=autre.value.trim()
-      const diab=diabete.checked
-      let allergenes=''
-      if(!noAll.checked){
-        allergenes=[...allergieBoxes].filter(cb=>cb.checked).map(x=>x.value).join(', ')
+      msgSuccess.style.display = 'none'
+      msgError.style.display = 'none'
+      const nomVal = nom.value.trim()
+      const contactVal = user.email
+      const autreVal = autre.value.trim()
+      const diab = diabete.checked
+      let allergenes = ''
+      if (!noAll.checked) {
+        allergenes = [...allergieBoxes].filter(cb => cb.checked).map(x => x.value).join(', ')
       }
-      try{
-        const {error}=await supabase.from('passports').upsert([{nom:nomVal,contact:contactVal,allergenes,autres_allergenes:autreVal,diabete:diab}])
-        if(error)throw error
-        msgSuccess.textContent='Enregistré.'
-        msgSuccess.style.display='block'
-      }catch(err){
-        msgError.textContent='Erreur.'
-        msgError.style.display='block'
+      try {
+        const { error } = await supabase.from('passports').upsert([{ nom: nomVal, contact: contactVal, allergenes, autres_allergenes: autreVal, diabete: diab }])
+        if (error) throw error
+        msgSuccess.textContent = 'Enregistré avec succès.'
+        msgSuccess.style.display = 'block'
+      } catch (err) {
+        msgError.textContent = 'Erreur lors de l’enregistrement.'
+        msgError.style.display = 'block'
       }
     })
   </script>
